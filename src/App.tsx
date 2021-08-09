@@ -1,5 +1,7 @@
+import { MainLayout } from '@/components/Layout';
 function App() {
-  return <div className="App">Config test</div>;
+  console.log('App render');
+  return <MainLayout />;
 }
 
 export default App;
