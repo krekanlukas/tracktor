@@ -1,5 +1,6 @@
 import { Flex, useColorModeValue } from '@chakra-ui/react';
 
+import { SIDEBAR_WIDTH, TOPBAR_HEIGHT, NAVIGATION_CONTAINER } from '@/components/Layout/constants';
 import { Logo, SidebarContent } from '@/components/Layout/Navigation';
 
 export const Sidebar = () => {
@@ -10,9 +11,9 @@ export const Sidebar = () => {
     <Flex
       as="nav"
       direction="column"
-      w={240}
+      w={SIDEBAR_WIDTH}
       h="100vh"
-      px={4}
+      px={NAVIGATION_CONTAINER}
       borderRight="2px"
       borderColor={borderColor}
       position="fixed"
@@ -20,7 +21,7 @@ export const Sidebar = () => {
       left="0"
       boxShadow="md"
     >
-      <Flex h={16} alignItems="center" justify="center" mb={4}>
+      <Flex h={TOPBAR_HEIGHT} alignItems="center" justify="center" mb={4}>
         <Logo />
       </Flex>
       <SidebarContent />

@@ -2,6 +2,7 @@ import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { Drawer, DrawerOverlay, IconButton, DrawerContent, Flex } from '@chakra-ui/react';
 import { FC, useRef } from 'react';
 
+import { TOPBAR_HEIGHT, NAVIGATION_CONTAINER } from '@/components/Layout/constants';
 import { SidebarContent } from '@/components/Layout/Navigation';
 import { useDisclosure } from '@/hooks/useDisclosure';
 
@@ -20,8 +21,8 @@ export const MobileSidebar: FC = () => {
       />
       <Drawer isOpen={isOpen} placement="left" onClose={close} finalFocusRef={buttonRef}>
         <DrawerOverlay />
-        <DrawerContent px={4}>
-          <Flex h={16} align="center" mb={4}>
+        <DrawerContent px={NAVIGATION_CONTAINER}>
+          <Flex h={TOPBAR_HEIGHT} align="center" mb={4}>
             <IconButton
               aria-label="close drawer"
               onClick={close}

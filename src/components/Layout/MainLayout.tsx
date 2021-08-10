@@ -1,5 +1,6 @@
 import { Flex, Box, useMediaQuery, useColorModeValue } from '@chakra-ui/react';
 
+import { SIDEBAR_WIDTH, TOPBAR_HEIGHT } from './constants';
 import { Sidebar, Topbar } from './Navigation';
 
 export function MainLayout() {
@@ -12,8 +13,8 @@ export function MainLayout() {
       {isDesktopView ? <Sidebar /> : <Topbar />}
       <Box
         as={'main'}
-        ml={isDesktopView ? 240 : 0}
-        mt={isDesktopView ? 0 : 16}
+        ml={isDesktopView ? SIDEBAR_WIDTH : 0}
+        mt={isDesktopView ? 0 : TOPBAR_HEIGHT}
         flexGrow={1}
         bg={bg}
       >
