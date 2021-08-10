@@ -1,8 +1,10 @@
-import { Flex, Box } from '@chakra-ui/react';
+import { Flex, Box, useColorModeValue } from '@chakra-ui/react';
 
 import { Logo, MobileSidebar } from '@/components/Layout/Navigation';
 
 export const Topbar = () => {
+  const borderColor = useColorModeValue('gray.100', 'gray.600');
+
   console.log('Topbar render');
   return (
     <Flex
@@ -11,7 +13,7 @@ export const Topbar = () => {
       top="0"
       left="0"
       borderBottom="2px"
-      borderColor="gray.100"
+      borderColor={borderColor}
       w="100%"
       boxShadow="sm"
       px={4}

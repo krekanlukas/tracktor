@@ -1,8 +1,10 @@
-import { Flex } from '@chakra-ui/react';
+import { Flex, useColorModeValue } from '@chakra-ui/react';
 
 import { Logo, SidebarContent } from '@/components/Layout/Navigation';
 
 export const Sidebar = () => {
+  const borderColor = useColorModeValue('gray.100', 'gray.600');
+
   console.log('Sidebar render');
   return (
     <Flex
@@ -12,7 +14,7 @@ export const Sidebar = () => {
       h="100vh"
       px={4}
       borderRight="2px"
-      borderColor="gray.100"
+      borderColor={borderColor}
       position="fixed"
       top="0"
       left="0"

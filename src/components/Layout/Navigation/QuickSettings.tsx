@@ -1,14 +1,25 @@
-import { Flex, Button, Icon, Menu, MenuList, MenuItem, MenuButton } from '@chakra-ui/react';
+import {
+  Flex,
+  Button,
+  Icon,
+  Menu,
+  MenuList,
+  MenuItem,
+  MenuButton,
+  useColorMode,
+} from '@chakra-ui/react';
 import { IoSunny, IoMoon, IoGlobeOutline } from 'react-icons/io5';
 
 export const QuickSettings = () => {
+  const { colorMode, toggleColorMode } = useColorMode();
   console.log('QuickSettings render');
   return (
     <Flex justify="space-between" py={2}>
       <Button
-        leftIcon={<Icon as={IoSunny} opacity={1} boxSize="1.5em" />}
-        rightIcon={<Icon as={IoMoon} opacity={0.4} boxSize="1.5em" />}
+        leftIcon={<Icon as={IoSunny} opacity={colorMode === 'light' ? 1 : 0.4} boxSize="1.5em" />}
+        rightIcon={<Icon as={IoMoon} opacity={colorMode === 'light' ? 0.4 : 1} boxSize="1.5em" />}
         variant="outline"
+        onClick={toggleColorMode}
       >
         /
       </Button>
@@ -24,9 +35,6 @@ export const QuickSettings = () => {
           <MenuItem justifyContent="center">English</MenuItem>
         </MenuList>
       </Menu>
-      {/* <Button leftIcon={<IoGlobeOutline />} variant="outline">
-        EN
-      </Button> */}
     </Flex>
   );
 };
