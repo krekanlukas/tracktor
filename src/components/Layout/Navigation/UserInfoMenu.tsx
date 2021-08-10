@@ -14,7 +14,7 @@ import {
 export const UserInfoMenu = () => {
   console.log('UserInfoMenu render');
   return (
-    <Menu placement="right-start" offset={[0, -15]} closeOnBlur={true}>
+    <Menu placement="top">
       <MenuButton as={Button} w="100%" h="100%" py="8px" variant="outline">
         <Flex>
           <Box textAlign="left">
