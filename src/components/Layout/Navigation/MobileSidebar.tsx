@@ -2,8 +2,8 @@ import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { Drawer, DrawerOverlay, IconButton, DrawerContent, Flex } from '@chakra-ui/react';
 import { FC, useRef } from 'react';
 
-import { TOPBAR_HEIGHT, NAVIGATION_CONTAINER } from '@/components/Layout/constants';
 import { SidebarContent } from '@/components/Layout/Navigation';
+import { TOPBAR_HEIGHT, NAVIGATION_CONTAINER } from '@/config/constants/layout';
 import { useDisclosure } from '@/hooks/useDisclosure';
 
 export const MobileSidebar: FC = () => {

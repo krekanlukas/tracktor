@@ -11,14 +11,17 @@ import {
   MenuButton,
 } from '@chakra-ui/react';
 
+import { useLanguage } from '@/context/LanguageContext';
+
 export const UserInfoMenu = () => {
+  const { t } = useLanguage();
   console.log('UserInfoMenu render');
   return (
     <Menu placement="top">
       <MenuButton as={Button} w="100%" h="100%" py="8px" variant="outline">
         <Flex>
           <Box textAlign="left">
-            <Text>Meno Priezvisko</Text>
+            <Text>Name Surename</Text>
             <Text isTruncated color="gray.500">
               Email
             </Text>
@@ -27,9 +30,9 @@ export const UserInfoMenu = () => {
         </Flex>
       </MenuButton>
       <MenuList>
-        <MenuItem>Profile settings</MenuItem>
+        <MenuItem>{t('Profile settings')}</MenuItem>
         <MenuDivider />
-        <MenuItem>Log out</MenuItem>
+        <MenuItem>{t('Log out')}</MenuItem>
       </MenuList>
     </Menu>
   );

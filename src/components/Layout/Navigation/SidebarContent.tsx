@@ -4,7 +4,8 @@ import { IoBriefcaseOutline, IoDocumentTextOutline } from 'react-icons/io5';
 import { MdTimer } from 'react-icons/md';
 
 import { QuickSettings, UserInfoMenu } from '@/components/Layout/Navigation';
-import { ROUTES } from '@/utils/routes';
+import { ROUTES } from '@/config/constants/routes';
+import { useLanguage } from '@/context/LanguageContext';
 
 type NavigationItemsGroup = {
   groupTitle: string;
@@ -51,6 +52,7 @@ const navigationItemsGroups: NavigationItemsGroup[] = [
 ];
 
 export const SidebarContent = () => {
+  const { t } = useLanguage();
   console.log('SidebarContent render');
   return (
     <Flex direction="column" grow={1}>
@@ -58,7 +60,7 @@ export const SidebarContent = () => {
         {navigationItemsGroups.map((navigationItemsGroup, index) => (
           <Fragment key={index}>
             <ListItem>
-              <Text fontSize="xs">{navigationItemsGroup.groupTitle}</Text>
+              <Text fontSize="xs">{t(navigationItemsGroup.groupTitle)}</Text>
             </ListItem>
             {navigationItemsGroup.navigationItems.map((navigationItem, index) => (
               <ListItem key={index}>
@@ -68,7 +70,7 @@ export const SidebarContent = () => {
                   justifyContent="flex-start"
                   variant="outline"
                 >
-                  {navigationItem.name}
+                  {t(navigationItem.name)}
                 </Button>
               </ListItem>
             ))}

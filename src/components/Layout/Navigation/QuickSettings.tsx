@@ -7,11 +7,16 @@ import {
   MenuItem,
   MenuButton,
   useColorMode,
+  Text,
 } from '@chakra-ui/react';
 import { IoSunny, IoMoon, IoGlobeOutline } from 'react-icons/io5';
 
+import { languagesList } from '@/config/localization/languages';
+import { useLanguage } from '@/context/LanguageContext';
+
 export const QuickSettings = () => {
   const { colorMode, toggleColorMode } = useColorMode();
+  const { selectedLanguage, setSelectedLanguage } = useLanguage();
   console.log('QuickSettings render');
   return (
     <Flex justify="space-between" py={2}>
@@ -29,10 +34,18 @@ export const QuickSettings = () => {
           leftIcon={<Icon as={IoGlobeOutline} boxSize="1.5em" />}
           variant="outline"
         >
-          EN
+          <Text casing="uppercase">{selectedLanguage}</Text>
         </MenuButton>
         <MenuList minWidth={36}>
-          <MenuItem justifyContent="center">English</MenuItem>
+          {languagesList.map((language) => (
+            <MenuItem
+              key={language.code}
+              justifyContent="center"
+              onClick={() => setSelectedLanguage(language.code)}
+            >
+              {language.language}
+            </MenuItem>
+          ))}
         </MenuList>
       </Menu>
     </Flex>

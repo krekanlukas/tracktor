@@ -1,7 +1,7 @@
 import { Flex, Box, useMediaQuery, useColorModeValue } from '@chakra-ui/react';
 
-import { SIDEBAR_WIDTH, TOPBAR_HEIGHT } from './constants';
-import { Sidebar, Topbar } from './Navigation';
+import { Sidebar, Topbar } from '@/components/Layout/Navigation';
+import { SIDEBAR_WIDTH, TOPBAR_HEIGHT } from '@/config/constants/layout';
 
 export function MainLayout() {
   const [isDesktopView] = useMediaQuery('(min-width: 48em)');

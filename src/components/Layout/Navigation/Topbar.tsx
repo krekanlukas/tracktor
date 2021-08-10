@@ -1,7 +1,7 @@
 import { Flex, Box, useColorModeValue } from '@chakra-ui/react';
 
-import { TOPBAR_HEIGHT, NAVIGATION_CONTAINER } from '@/components/Layout/constants';
 import { Logo, MobileSidebar } from '@/components/Layout/Navigation';
+import { TOPBAR_HEIGHT, NAVIGATION_CONTAINER } from '@/config/constants/layout';
 
 export const Topbar = () => {
   const borderColor = useColorModeValue('gray.100', 'gray.600');

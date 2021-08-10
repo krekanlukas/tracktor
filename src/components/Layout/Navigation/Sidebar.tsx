@@ -1,7 +1,7 @@
 import { Flex, useColorModeValue } from '@chakra-ui/react';
 
-import { SIDEBAR_WIDTH, TOPBAR_HEIGHT, NAVIGATION_CONTAINER } from '@/components/Layout/constants';
 import { Logo, SidebarContent } from '@/components/Layout/Navigation';
+import { SIDEBAR_WIDTH, TOPBAR_HEIGHT, NAVIGATION_CONTAINER } from '@/config/constants/layout';
 
 export const Sidebar = () => {
   const borderColor = useColorModeValue('gray.100', 'gray.600');

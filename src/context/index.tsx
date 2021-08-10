@@ -3,6 +3,7 @@ import React from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { BrowserRouter as Router } from 'react-router-dom';
 
+import { LanguageProvider } from '@/context/LanguageContext';
 import theme from '@/utils/theme';
 
 const ErrorFallback = () => {
@@ -20,7 +21,9 @@ export const AppProviders: React.FC = ({ children }) => {
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <ChakraProvider theme={theme}>
         <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-        <Router>{children}</Router>
+        <LanguageProvider>
+          <Router>{children}</Router>
+        </LanguageProvider>
       </ChakraProvider>
     </ErrorBoundary>
   );
