@@ -10,7 +10,9 @@ import {
   MenuItem,
   MenuButton,
 } from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
 
+import { ROUTES } from '@/config/constants/routes';
 import { useLanguage } from '@/context/LanguageContext';
 
 export const UserInfoMenu = () => {
@@ -30,7 +32,9 @@ export const UserInfoMenu = () => {
         </Flex>
       </MenuButton>
       <MenuList>
-        <MenuItem>{t('Profile settings')}</MenuItem>
+        <Link to={ROUTES.PROFILE_SETTINGS}>
+          <MenuItem>{t('Profile settings')}</MenuItem>
+        </Link>
         <MenuDivider />
         <MenuItem>{t('Log out')}</MenuItem>
       </MenuList>

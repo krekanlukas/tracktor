@@ -2,6 +2,7 @@ import { Flex, UnorderedList, ListItem, Button, Text, Box, Divider } from '@chak
 import { Fragment } from 'react';
 import { IoBriefcaseOutline, IoDocumentTextOutline } from 'react-icons/io5';
 import { MdTimer } from 'react-icons/md';
+import { Link, useLocation } from 'react-router-dom';
 
 import { QuickSettings, UserInfoMenu } from '@/components/Layout/Navigation';
 import { ROUTES } from '@/config/constants/routes';
@@ -53,10 +54,12 @@ const navigationItemsGroups: NavigationItemsGroup[] = [
 
 export const SidebarContent = () => {
   const { t } = useLanguage();
+  const { pathname } = useLocation();
+
   console.log('SidebarContent render');
   return (
     <Flex direction="column" grow={1}>
-      <UnorderedList styleType="none" ml={0} spacing={2}>
+      <UnorderedList styleType="none" ml={0} spacing={4}>
         {navigationItemsGroups.map((navigationItemsGroup, index) => (
           <Fragment key={index}>
             <ListItem>
@@ -64,14 +67,17 @@ export const SidebarContent = () => {
             </ListItem>
             {navigationItemsGroup.navigationItems.map((navigationItem, index) => (
               <ListItem key={index}>
-                <Button
-                  leftIcon={navigationItem.icon}
-                  isFullWidth
-                  justifyContent="flex-start"
-                  variant="outline"
-                >
-                  {t(navigationItem.name)}
-                </Button>
+                <Link to={navigationItem.to}>
+                  <Button
+                    leftIcon={navigationItem.icon}
+                    isFullWidth
+                    justifyContent="flex-start"
+                    variant={pathname === navigationItem.to ? 'solid' : 'outline'}
+                    colorScheme={pathname === navigationItem.to ? 'teal' : 'gray'}
+                  >
+                    {t(navigationItem.name)}
+                  </Button>
+                </Link>
               </ListItem>
             ))}
           </Fragment>

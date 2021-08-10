@@ -1,13 +1,14 @@
 import { Flex, Box, useMediaQuery, useColorModeValue } from '@chakra-ui/react';
+import { FC } from 'react';
 
 import { Sidebar, Topbar } from '@/components/Layout/Navigation';
 import { SIDEBAR_WIDTH, TOPBAR_HEIGHT } from '@/config/constants/layout';
 
-export function MainLayout() {
+export const AppLayout: FC = ({ children }) => {
   const [isDesktopView] = useMediaQuery('(min-width: 48em)');
   const bg = useColorModeValue('gray.50', 'gray.700');
 
-  console.log('MainLayout render');
+  console.log('AppLayout render');
   return (
     <Flex grow={1}>
       {isDesktopView ? <Sidebar /> : <Topbar />}
@@ -19,9 +20,9 @@ export function MainLayout() {
         bg={bg}
       >
         <Flex justify="center" align="center" h="100%" w="100%">
-          App main content
+          {children}
         </Flex>
       </Box>
     </Flex>
   );
-}
+};

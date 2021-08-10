@@ -1,6 +1,7 @@
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { Drawer, DrawerOverlay, IconButton, DrawerContent, Flex } from '@chakra-ui/react';
-import { FC, useRef } from 'react';
+import { FC, useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import { SidebarContent } from '@/components/Layout/Navigation';
 import { TOPBAR_HEIGHT, NAVIGATION_CONTAINER } from '@/config/constants/layout';
@@ -9,6 +10,13 @@ import { useDisclosure } from '@/hooks/useDisclosure';
 export const MobileSidebar: FC = () => {
   const buttonRef = useRef(null);
   const { close, isOpen, toggle } = useDisclosure();
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    close();
+    console.log('MobileSidebar commit');
+  }, [pathname, close]);
+
   console.log('MobileSidebar render');
   return (
     <>
