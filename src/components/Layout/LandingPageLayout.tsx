@@ -27,9 +27,9 @@ export const LandingPageLayout: FC = ({ children }) => {
         </Box>
         <Box flex={{ base: 1, md: '0 0 210px' }}>{isDesktopView ? <QuickSettings /> : null}</Box>
       </Topbar>
-      <Box as={'main'} flexGrow={1} mt={TOPBAR_HEIGHT}>
+      <Flex as={'main'} flexGrow={1} mt={TOPBAR_HEIGHT} overflow="auto">
         {children}
-      </Box>
+      </Flex>
     </Flex>
   );
 };

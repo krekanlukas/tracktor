@@ -19,6 +19,7 @@ export const Topbar: FC = ({ children }) => {
       boxShadow="sm"
       px={NAVIGATION_CONTAINER}
       align="center"
+      zIndex="docked"
     >
       {children}
     </Flex>
