@@ -4,7 +4,11 @@ import { Link as RouterLink } from 'react-router-dom';
 import logo from '@/assets/logo.svg';
 import { ROUTES } from '@/config/constants/routes';
 
-export const Logo = () => {
+type LogoProps = {
+  showImage?: boolean;
+};
+
+export const Logo = ({ showImage = true }: LogoProps) => {
   console.log('Logo render');
   return (
     <Flex align="center" justify="center">
@@ -15,7 +19,7 @@ export const Logo = () => {
         alignItems="center"
         _hover={{ textDecoration: 'none' }}
       >
-        <Image h="32px" w="auto" src={logo} alt="" />
+        {showImage && <Image h="32px" w="auto" src={logo} alt="" />}
         <Box ml="8px">
           <Heading size="md" color="teal">
             TRACKtor

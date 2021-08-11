@@ -1,7 +1,13 @@
 import { Flex, Box, useMediaQuery, useColorModeValue } from '@chakra-ui/react';
 import { FC } from 'react';
 
-import { Sidebar, Topbar } from '@/components/Layout/Navigation';
+import {
+  Logo,
+  MobileSidebar,
+  Sidebar,
+  SidebarContent,
+  Topbar,
+} from '@/components/Layout/Navigation';
 import { SIDEBAR_WIDTH, TOPBAR_HEIGHT } from '@/config/constants/layout';
 
 export const AppLayout: FC = ({ children }) => {
@@ -11,7 +17,21 @@ export const AppLayout: FC = ({ children }) => {
   console.log('AppLayout render');
   return (
     <Flex grow={1}>
-      {isDesktopView ? <Sidebar /> : <Topbar />}
+      {isDesktopView ? (
+        <Sidebar />
+      ) : (
+        <Topbar>
+          <Box flex={1}>
+            <MobileSidebar>
+              <SidebarContent />
+            </MobileSidebar>
+          </Box>
+          <Box>
+            <Logo />
+          </Box>
+          <Box flex={1} />
+        </Topbar>
+      )}
       <Box
         as={'main'}
         ml={isDesktopView ? SIDEBAR_WIDTH : 0}

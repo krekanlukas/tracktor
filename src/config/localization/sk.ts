@@ -8,4 +8,7 @@ export const sk = {
   Projects: 'Projekty',
   'Profile settings': 'Nastavenia profilu',
   'Log out': 'Odhlásiť sa',
+  Home: 'Domovská stránka',
+  Login: 'Prihlásiť sa',
+  Register: 'Registrácia',
 };

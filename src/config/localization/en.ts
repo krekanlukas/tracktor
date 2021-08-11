@@ -8,4 +8,7 @@ export const en = {
   Projects: 'Projects',
   'Profile settings': 'Profile settings',
   'Log out': 'Log out',
+  Home: 'Home',
+  Login: 'Login',
+  Register: 'Register',
 };

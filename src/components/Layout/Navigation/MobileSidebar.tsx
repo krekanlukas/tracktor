@@ -3,11 +3,10 @@ import { Drawer, DrawerOverlay, IconButton, DrawerContent, Flex } from '@chakra-
 import { FC, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { SidebarContent } from '@/components/Layout/Navigation';
 import { TOPBAR_HEIGHT, NAVIGATION_CONTAINER } from '@/config/constants/layout';
 import { useDisclosure } from '@/hooks/useDisclosure';
 
-export const MobileSidebar: FC = () => {
+export const MobileSidebar: FC = ({ children }) => {
   const buttonRef = useRef(null);
   const { close, isOpen, toggle } = useDisclosure();
   const { pathname } = useLocation();
@@ -38,7 +37,7 @@ export const MobileSidebar: FC = () => {
               variant="outline"
             />
           </Flex>
-          <SidebarContent />
+          {children}
         </DrawerContent>
       </Drawer>
     </>

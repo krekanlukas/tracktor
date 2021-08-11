@@ -4,4 +4,6 @@ export const ROUTES = {
   REPORTS: '/reports',
   PROJECTS: '/projects',
   PROFILE_SETTINGS: '/profile-settings',
+  LOGIN: '/login',
+  REGISTER: '/register',
 };

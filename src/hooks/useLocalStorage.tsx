@@ -2,7 +2,7 @@ import { useState, useEffect, Dispatch, SetStateAction } from 'react';
 
 import localStorageHelper from '@/utils/localStorage';
 
-// For now only for strings
+// So far only for strings
 export const useLocalStorage = (
   key: string,
   initalValue: string
