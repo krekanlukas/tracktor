@@ -5,5 +5,5 @@ export const ROUTES = {
   PROJECTS: '/projects',
   PROFILE_SETTINGS: '/profile-settings',
   LOGIN: '/login',
-  REGISTER: '/register',
+  REGISTER: '/registration',
 };

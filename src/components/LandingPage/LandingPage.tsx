@@ -37,7 +37,7 @@ export const LandingPage = () => {
             </Link>
             <Link to={ROUTES.REGISTER}>
               <Button colorScheme="teal" size="lg" variant="outline">
-                {t('Register')}
+                {t('Registration')}
               </Button>
             </Link>
           </Stack>

@@ -1,4 +1,4 @@
-import { Flex, Box, useMediaQuery } from '@chakra-ui/react';
+import { Flex, Box, useMediaQuery, useColorModeValue } from '@chakra-ui/react';
 import { FC } from 'react';
 
 import {
@@ -8,10 +8,11 @@ import {
   Topbar,
   LandingSidebarContent,
 } from '@/components/Layout/Navigation';
-import { TOPBAR_HEIGHT } from '@/config/constants/layout';
+import { CONTENT_CONTAINER, TOPBAR_HEIGHT } from '@/config/constants/layout';
 
 export const LandingPageLayout: FC = ({ children }) => {
   const [isDesktopView] = useMediaQuery('(min-width: 48em)');
+  const bg = useColorModeValue('gray.50', 'gray.700');
 
   console.log('LandingPageLayout render');
   return (
@@ -23,11 +24,18 @@ export const LandingPageLayout: FC = ({ children }) => {
           </MobileSidebar>
         </Box>
         <Box mr="auto">
-          <Logo showImage={!isDesktopView} />
+          <Logo showImage />
         </Box>
         <Box flex={{ base: 1, md: '0 0 210px' }}>{isDesktopView ? <QuickSettings /> : null}</Box>
       </Topbar>
-      <Flex as={'main'} flexGrow={1} mt={TOPBAR_HEIGHT} overflow="auto">
+      <Flex
+        as={'main'}
+        flexGrow={1}
+        mt={TOPBAR_HEIGHT}
+        overflow="auto"
+        bg={bg}
+        p={CONTENT_CONTAINER}
+      >
         {children}
       </Flex>
     </Flex>
