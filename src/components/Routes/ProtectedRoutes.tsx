@@ -1,38 +1,29 @@
-import { Heading } from '@chakra-ui/react';
+import { lazy, Suspense } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 import { Route, Switch } from 'react-router-dom';
 
+import { ErrorBoundaryFallback, LoadingFallback } from '@/components/Common';
 import { ROUTES } from '@/config/constants/routes';
+
+const DashboardPage = lazy(() => import('@/components/Dashboard'));
+const TimerPage = lazy(() => import('@/components/Timer'));
+const ReportsPage = lazy(() => import('@/components/Reports'));
+const ProjectsPage = lazy(() => import('@/components/Projects'));
+const ProfilePage = lazy(() => import('@/components/Profile'));
 
 export const ProtectedRoutes = () => {
   return (
-    <Switch>
-      <Route exact path={ROUTES.HOME} component={Home} />
-      <Route path={ROUTES.TIMER} component={Timer} />
-      <Route path={ROUTES.REPORTS} component={Reports} />
-      <Route path={ROUTES.PROJECTS} component={Projects} />
-      <Route path={ROUTES.PROFILE_SETTINGS} component={Profile} />
-      <Route component={Home} />
-    </Switch>
+    <ErrorBoundary FallbackComponent={ErrorBoundaryFallback}>
+      <Suspense fallback={<LoadingFallback />}>
+        <Switch>
+          <Route exact path={ROUTES.HOME} component={DashboardPage} />
+          <Route path={ROUTES.TIMER} component={TimerPage} />
+          <Route path={ROUTES.REPORTS} component={ReportsPage} />
+          <Route path={ROUTES.PROJECTS} component={ProjectsPage} />
+          <Route path={ROUTES.PROFILE_SETTINGS} component={ProfilePage} />
+          <Route component={DashboardPage} />
+        </Switch>
+      </Suspense>
+    </ErrorBoundary>
   );
 };
-
-function Timer() {
-  console.log('Timer render');
-  return <Heading>Timer</Heading>;
-}
-function Reports() {
-  console.log('Reports render');
-  return <Heading>Reports</Heading>;
-}
-function Projects() {
-  console.log('Projects render');
-  return <Heading>Projects</Heading>;
-}
-function Profile() {
-  console.log('Profile render');
-  return <Heading>Profile</Heading>;
-}
-function Home() {
-  console.log('Home render');
-  return <Heading>Home</Heading>;
-}

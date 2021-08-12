@@ -7,14 +7,17 @@ const AuthContext = createContext<AuthValue | undefined>(undefined);
 
 export const AuthProvider: FC = ({ children }) => {
   const [user, setUser] = useState<AuthUser>();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const session = supabase.auth.session();
     setUser(session?.user ?? null);
+    setLoading(false);
 
     const subscription = supabase.auth.onAuthStateChange((event, session) => {
       console.log(event, session);
       setUser(session?.user ?? null);
+      setLoading(false);
     });
 
     console.log('AuthProvider mount commit');
@@ -44,7 +47,11 @@ export const AuthProvider: FC = ({ children }) => {
   };
 
   console.log('AuthProvider render', user);
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={value}>
+      {loading ? <div>Loading...</div> : children}
+    </AuthContext.Provider>
+  );
 };
 
 export const useAuth = () => {

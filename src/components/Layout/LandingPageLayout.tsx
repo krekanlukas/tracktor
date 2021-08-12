@@ -19,9 +19,11 @@ export const LandingPageLayout: FC = ({ children }) => {
     <Flex direction="column" grow={1}>
       <Topbar>
         <Box d={{ base: 'block', md: 'none' }} flex={1}>
-          <MobileSidebar>
-            <LandingSidebarContent />
-          </MobileSidebar>
+          {!isDesktopView && (
+            <MobileSidebar>
+              <LandingSidebarContent />
+            </MobileSidebar>
+          )}
         </Box>
         <Box mr="auto">
           <Logo showImage />
