@@ -5,6 +5,7 @@ import { TOPBAR_HEIGHT, NAVIGATION_CONTAINER } from '@/config/constants/layout';
 
 export const Topbar: FC = ({ children }) => {
   const borderColor = useColorModeValue('gray.100', 'gray.600');
+  const bg = useColorModeValue('white', 'gray.800');
 
   console.log('Topbar render');
   return (
@@ -20,6 +21,7 @@ export const Topbar: FC = ({ children }) => {
       px={NAVIGATION_CONTAINER}
       align="center"
       zIndex="docked"
+      bg={bg}
     >
       {children}
     </Flex>

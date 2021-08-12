@@ -2,7 +2,6 @@ import { Button, Container, Box, Flex, Heading, Image, Stack } from '@chakra-ui/
 import { Link } from 'react-router-dom';
 
 import tractor from '@/assets/tractor.png';
-import { TOPBAR_HEIGHT } from '@/config/constants/layout';
 import { ROUTES } from '@/config/constants/routes';
 import { useLanguage } from '@/context/LanguageContext';
 
@@ -11,17 +10,22 @@ export const LandingPage = () => {
 
   console.log('LandingPage render');
   return (
-    <Flex grow={1} align={{ base: 'center' }}>
+    <Flex grow={1} align={{ base: 'center' }} maxW="100vw">
       <Container
         maxW="container.xl"
-        maxH={{ base: `calc(100vh - ${TOPBAR_HEIGHT * 4}px)` }}
-        py={4}
+        p={0}
         d="flex"
         flexDirection={{ base: 'column-reverse', md: 'row' }}
-        overflow="auto"
+        align={{ base: 'center', md: 'flex-start' }}
       >
-        <Stack direction="column" justify="center" flex="1" spacing={10}>
-          <Heading color="teal" size="3xl">
+        <Stack
+          direction="column"
+          justify="center"
+          flex="1"
+          spacing={10}
+          textAlign={{ base: 'center', md: 'left' }}
+        >
+          <Heading color="teal" size="2xl">
             {t('Time tracking for better work.')}
           </Heading>
           <Heading size="md">
@@ -29,7 +33,12 @@ export const LandingPage = () => {
               'Tracktor is time tracking web app for individuals. Register and see what Tracktor can do.'
             )}
           </Heading>
-          <Stack direction="row" spacing={6}>
+          <Stack
+            direction="row"
+            spacing={{ base: 0, md: 6 }}
+            flexWrap="wrap"
+            justifyContent={{ base: 'space-evenly', md: 'flex-start' }}
+          >
             <Link to={ROUTES.LOGIN}>
               <Button colorScheme="teal" size="lg">
                 {t('Login')}
