@@ -6,35 +6,65 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  Link,
   Stack,
+  Text,
+  useToast,
 } from '@chakra-ui/react';
 import { useState } from 'react';
+import { Link as RouterLink, useHistory } from 'react-router-dom';
 
-import { AuthFormContainer } from '@/components/AuthForms';
+import {
+  AuthFormContainer,
+  linkToLogin,
+  errorRegistrationToast,
+  succesRegistrationToast,
+} from '@/components/AuthForms';
 import { ROUTES } from '@/config/constants/routes';
+import { useAuth } from '@/context/AuthContext';
 import { useLanguage } from '@/context/LanguageContext';
 import { useBoolean } from '@/hooks/useBoolean';
 
 export const Registration = () => {
   const { t } = useLanguage();
+  const { signUp } = useAuth();
   const [showPassword, { toggle: togglePassword }] = useBoolean(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const toast = useToast();
+  const history = useHistory();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement | HTMLDivElement>) => {
+  const handleRegister = async (e: React.FormEvent<HTMLFormElement | HTMLDivElement>) => {
     e.preventDefault();
-  };
-
-  const link = {
-    message: t(`Do you already have an account?`),
-    to: ROUTES.LOGIN,
-    title: t('Login'),
+    try {
+      setLoading(true);
+      const { error } = await signUp({ email, password });
+      if (error) throw error;
+      history.push(ROUTES.HOME);
+      toast(succesRegistrationToast);
+    } catch (error) {
+      setLoading(false);
+      setPassword('');
+      toast({ ...errorRegistrationToast, description: error.message });
+    }
   };
 
   console.log('Registration render');
   return (
-    <AuthFormContainer heading={t('Create account')} link={link}>
-      <Box as={'form'} w="full" textAlign="center" onSubmit={handleSubmit}>
+    <AuthFormContainer heading={t('Create account')} link={linkToLogin}>
+      <Text mb={8}>
+        {t('Do you just want to try Tracktor?')}
+        <Link
+          as={RouterLink}
+          to={{ pathname: ROUTES.LOGIN, state: { magicLink: true } }}
+          color="teal"
+          ml={1}
+        >
+          {t('Login via Magic link.')}
+        </Link>
+      </Text>
+      <Box as={'form'} w="full" textAlign="center" onSubmit={handleRegister}>
         <Stack spacing={4}>
           <FormControl id="email" isRequired>
             <FormLabel>{t('Email address')}</FormLabel>
@@ -63,7 +93,13 @@ export const Registration = () => {
             </InputGroup>
           </FormControl>
         </Stack>
-        <Button colorScheme="teal" type="submit" minW={{ base: 'full', md: '50%' }} mt={12}>
+        <Button
+          colorScheme="teal"
+          type="submit"
+          minW={{ base: 'full', md: '50%' }}
+          mt={12}
+          isLoading={loading}
+        >
           {t('Create account')}
         </Button>
       </Box>

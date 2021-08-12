@@ -9,9 +9,11 @@ import {
   MenuItem,
   MenuButton,
   Box,
+  Spinner,
+  useToast,
 } from '@chakra-ui/react';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import { ROUTES } from '@/config/constants/routes';
 import { useAuth } from '@/context/AuthContext';
@@ -21,13 +23,16 @@ export const UserInfoMenu = () => {
   const { t } = useLanguage();
   const { user, signOut } = useAuth();
   const [loading, setLoading] = useState(false);
+  const history = useHistory();
+  const toast = useToast();
 
   const handleSignOut = async () => {
     try {
       setLoading(true);
-      console.log(loading);
       const { error } = await signOut();
       if (error) throw error;
+      toast({ title: 'Signed out', duration: 9000, isClosable: true });
+      history.push(ROUTES.HOME);
     } catch (error) {
       console.log(error);
     }
@@ -37,15 +42,19 @@ export const UserInfoMenu = () => {
   return (
     <Menu placement="top">
       <MenuButton as={Button} w="100%" h="100%" py="8px" variant="outline">
-        <Flex>
-          <Box textAlign="left">
-            <Text>Username</Text>
-            <Text isTruncated maxW="130px" color="gray">
-              {user?.email}
-            </Text>
-          </Box>
-          <Avatar name={user?.email} ml="auto" />
-        </Flex>
+        {loading ? (
+          <Spinner color="teal" />
+        ) : (
+          <Flex>
+            <Box textAlign="left">
+              <Text>Username</Text>
+              <Text isTruncated maxW="130px" color="gray">
+                {user?.email}
+              </Text>
+            </Box>
+            <Avatar name={user?.email} ml="auto" />
+          </Flex>
+        )}
       </MenuButton>
       <MenuList>
         <Link to={ROUTES.PROFILE_SETTINGS}>

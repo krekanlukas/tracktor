@@ -1,13 +1,8 @@
-import { createContext, Dispatch, FC, SetStateAction, useCallback, useContext } from 'react';
+import { createContext, FC, useCallback, useContext } from 'react';
 
 import { translations } from '@/config/localization';
+import { ContextData } from '@/context/LanguageContext';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
-
-type ContextData = {
-  selectedLanguage: string;
-  setSelectedLanguage: Dispatch<SetStateAction<string>>;
-  t: (key: string) => string;
-};
 
 const LanguageContext = createContext<ContextData | undefined>(undefined);
 
@@ -21,12 +16,14 @@ const LanguageProvider: FC = ({ children }) => {
     [selectedLanguage]
   );
 
+  const value = {
+    selectedLanguage,
+    setSelectedLanguage,
+    t: translate,
+  };
+
   console.log('LanguageProvider render');
-  return (
-    <LanguageContext.Provider value={{ selectedLanguage, setSelectedLanguage, t: translate }}>
-      {children}
-    </LanguageContext.Provider>
-  );
+  return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;
 };
 
 const useLanguage = () => {

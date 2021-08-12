@@ -1,10 +1,15 @@
 import { AppLayout, LandingPageLayout } from '@/components/Layout';
 import { ProtectedRoutes, PublicRoutes } from '@/components/Routes';
-function App() {
-  const authenticated = false;
+import { useAuth } from '@/context/AuthContext';
 
-  console.log('App render');
-  return authenticated ? (
+function App() {
+  const { user } = useAuth();
+
+  console.log('App render', user);
+
+  if (user === undefined) return <div>Loading....</div>;
+
+  return user ? (
     <AppLayout>
       <ProtectedRoutes />
     </AppLayout>
