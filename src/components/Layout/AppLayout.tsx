@@ -8,7 +8,7 @@ import {
   SidebarContent,
   Topbar,
 } from '@/components/Layout/Navigation';
-import { SIDEBAR_WIDTH, TOPBAR_HEIGHT } from '@/config/constants/layout';
+import { SIDEBAR_WIDTH, TOPBAR_HEIGHT, CONTENT_CONTAINER } from '@/config/constants/layout';
 
 export const AppLayout: FC = ({ children }) => {
   const [isDesktopView] = useMediaQuery('(min-width: 48em)');
@@ -39,7 +39,7 @@ export const AppLayout: FC = ({ children }) => {
         flexGrow={1}
         bg={bg}
       >
-        <Flex justify="center" align="center" h="100%" w="100%">
+        <Flex h="100%" w="100%" p={CONTENT_CONTAINER}>
           {children}
         </Flex>
       </Box>

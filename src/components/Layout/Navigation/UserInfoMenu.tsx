@@ -18,10 +18,12 @@ import { Link, useHistory } from 'react-router-dom';
 import { ROUTES } from '@/config/constants/routes';
 import { useAuth } from '@/context/AuthContext';
 import { useLanguage } from '@/context/LanguageContext';
+import { useUserSettings } from '@/hooks/useUserSettings';
 
 export const UserInfoMenu = () => {
   const { t } = useLanguage();
   const { user, signOut } = useAuth();
+  const { username } = useUserSettings();
   const [loading, setLoading] = useState(false);
   const history = useHistory();
   const toast = useToast();
@@ -34,6 +36,8 @@ export const UserInfoMenu = () => {
       toast({ title: 'Signed out', duration: 9000, isClosable: true });
       history.push(ROUTES.HOME);
     } catch (error) {
+      setLoading(false);
+      toast({ title: 'Error', duration: 9000, isClosable: true, status: 'error' });
       console.log(error);
     }
   };
@@ -47,7 +51,7 @@ export const UserInfoMenu = () => {
         ) : (
           <Flex>
             <Box textAlign="left">
-              <Text>Username</Text>
+              <Text>{username ?? t('Username')}</Text>
               <Text isTruncated maxW="130px" color="gray">
                 {user?.email}
               </Text>
