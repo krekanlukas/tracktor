@@ -7,7 +7,7 @@ export const ErrorBoundaryFallback = () => {
 
   console.log('ErrorBoundary render');
   return (
-    <Flex align="center" justify="center" direction="column" my={'auto'}>
+    <Flex align="center" justify="center" direction="column" m={'auto'}>
       <Heading color="teal" size="lg">
         {t('There was an error loading this page.')}
       </Heading>
