@@ -51,8 +51,10 @@ export const ProjectsPage = () => {
           {data.map((project) => (
             <ProjectRow
               key={project.id}
+              id={project.id}
               title={project.title}
               colorVariant={project.color_variant}
+              isBillable={project.is_billable}
             />
           ))}
         </Stack>

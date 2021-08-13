@@ -1,18 +1,60 @@
-import { Box, Button, ButtonGroup, Flex, Text, useColorModeValue } from '@chakra-ui/react';
-import { FC } from 'react';
+import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
+  Box,
+  Button,
+  ButtonGroup,
+  Flex,
+  Text,
+  useColorModeValue,
+  useToast,
+} from '@chakra-ui/react';
+import { FC, useRef } from 'react';
 
 import { colorsContrast } from '@/components/Projects';
 import { useLanguage } from '@/context/LanguageContext';
+import { useDeleteRow } from '@/hooks/useDeleteRow';
+import { useDisclosure } from '@/hooks/useDisclosure';
 
 type ProjectRowProps = {
+  id: number;
   title: string;
   colorVariant: string;
   isBillable?: boolean;
 };
 
-export const ProjectRow: FC<ProjectRowProps> = ({ title, colorVariant, isBillable = false }) => {
+export const ProjectRow: FC<ProjectRowProps> = ({
+  id,
+  title,
+  colorVariant,
+  isBillable = false,
+}) => {
   const { t } = useLanguage();
   const color = useColorModeValue(colorsContrast[colorVariant][0], colorsContrast[colorVariant][1]);
+  const { isOpen, open, close } = useDisclosure();
+  const cancelRef = useRef(null);
+  const deleteProject = useDeleteRow('projects');
+  const toast = useToast();
+
+  const handleDelete = async () => {
+    try {
+      await deleteProject.mutateAsync(id);
+      toast({ status: 'success', isClosable: true, duration: 9000, title: t('Project removed') });
+      close();
+    } catch (error) {
+      toast({
+        status: 'error',
+        isClosable: true,
+        duration: 9000,
+        title: t('Error deleting project'),
+        description: error.message,
+      });
+    }
+  };
 
   console.log('ProjectRow render');
   return (
@@ -32,8 +74,35 @@ export const ProjectRow: FC<ProjectRowProps> = ({ title, colorVariant, isBillabl
       )}
       <ButtonGroup variant="outline" spacing={3} flex="1" justifyContent="flex-end">
         <Button colorScheme="blue">{t('Edit')}</Button>
-        <Button colorScheme="red">{t('Delete')}</Button>
+        <Button colorScheme="red" onClick={open}>
+          {t('Delete')}
+        </Button>
       </ButtonGroup>
+      <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={close}>
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+              {t('Delete project')}
+            </AlertDialogHeader>
+            <AlertDialogBody>
+              {t(`Are you sure? You can't undo this action afterwards.`)}
+            </AlertDialogBody>
+            <AlertDialogFooter>
+              <Button ref={cancelRef} onClick={close}>
+                {t('Cancel')}
+              </Button>
+              <Button
+                colorScheme="red"
+                onClick={handleDelete}
+                ml={3}
+                isLoading={deleteProject.isLoading}
+              >
+                {t('Delete')}
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
     </Flex>
   );
 };
