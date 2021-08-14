@@ -42,7 +42,6 @@ export const ProjectRow: FC<ProjectRowProps> = ({ project }) => {
       try {
         await deleteProject.mutateAsync(id);
         toast({ status: 'success', isClosable: true, duration: 9000, title: t('Project removed') });
-        close();
       } catch (error) {
         toast({
           status: 'error',
@@ -56,8 +55,6 @@ export const ProjectRow: FC<ProjectRowProps> = ({ project }) => {
       toast({ title: t('Cannot delete project without ID'), isClosable: true, duration: 9000 });
     }
   };
-
-  // const handleEdit = () => {};
 
   console.log('ProjectRow render');
   return (

@@ -56,7 +56,7 @@ export const UserInfoMenu = () => {
                 {user?.email}
               </Text>
             </Box>
-            <Avatar name={user?.email} ml="auto" />
+            <Avatar name={username ?? user?.email} ml="auto" />
           </Flex>
         )}
       </MenuButton>

@@ -19,10 +19,9 @@ import { useFetchRows } from '@/hooks/useFetchRows';
 export const ProjectsPage = () => {
   const { t } = useLanguage();
   const { isOpen, open, close } = useDisclosure();
-  const { data, isSuccess, isLoading } = useFetchRows('projects');
+  const { data, isLoading } = useFetchRows('projects');
   const bg = useColorModeValue('white', BORDER_COLOR_DARK);
   const border = useColorModeValue('gray.100', 'gray.500');
-  console.log(data, isSuccess);
 
   console.log('Projects render');
   return (

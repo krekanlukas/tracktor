@@ -1,4 +1,14 @@
-import { Box, Button, Flex, FormControl, FormLabel, Heading, Input, Stack } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Flex,
+  FormControl,
+  FormHelperText,
+  FormLabel,
+  Heading,
+  Input,
+  Stack,
+} from '@chakra-ui/react';
 import { useState } from 'react';
 
 import { LoadingFallback } from '@/components/Common';
@@ -28,8 +38,17 @@ export const ProfilePage = () => {
         <Heading>{t('Profile')}</Heading>
       </Box>
       <Flex align="center">
-        {/* <Avatar size="2xl" name={username ?? user?.email ?? ''} mr={6} /> */}
-        <Flex
+        {/* <Flex flex="1" h="full" justify="center">
+          <Avatar
+            size="2xl"
+            maxW="250px"
+            maxH="250px"
+            name={username ?? user?.email ?? ''}
+            mr={6}
+          />
+        </Flex> */}
+        <Stack
+          spacing={6}
           as="form"
           borderWidth="2px"
           borderRadius="lg"
@@ -39,6 +58,16 @@ export const ProfilePage = () => {
           maxW="xl"
           flex="1"
         >
+          <FormControl id="email" isReadOnly>
+            <FormLabel>{t('Email')}</FormLabel>
+            <Input
+              type="email"
+              placeholder={username ?? t('Type your username')}
+              value={user?.email}
+              focusBorderColor="teal.500"
+            />
+            <FormHelperText>{t('Email is not editable')}</FormHelperText>
+          </FormControl>
           <FormControl id="username">
             <FormLabel>{t('User name')}</FormLabel>
             <Input
@@ -51,15 +80,14 @@ export const ProfilePage = () => {
           </FormControl>
           <Button
             colorScheme="teal"
-            mt={6}
-            mx="auto"
+            alignSelf="center"
             onClick={() => updateProfile.mutate()}
             isLoading={updateProfile.isLoading}
             isDisabled={!usernameInput}
           >
             {t('Save changes')}
           </Button>
-        </Flex>
+        </Stack>
       </Flex>
     </Stack>
   );
