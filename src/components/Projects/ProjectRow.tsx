@@ -15,46 +15,49 @@ import {
 } from '@chakra-ui/react';
 import { FC, useRef } from 'react';
 
-import { colorsContrast } from '@/components/Projects';
+import { colorsContrast, ProjectActionsModal, ProjectDbRow } from '@/components/Projects';
 import { useLanguage } from '@/context/LanguageContext';
 import { useDeleteRow } from '@/hooks/useDeleteRow';
 import { useDisclosure } from '@/hooks/useDisclosure';
 
 type ProjectRowProps = {
-  id: number;
-  title: string;
-  colorVariant: string;
-  isBillable?: boolean;
+  project: ProjectDbRow;
 };
 
-export const ProjectRow: FC<ProjectRowProps> = ({
-  id,
-  title,
-  colorVariant,
-  isBillable = false,
-}) => {
+export const ProjectRow: FC<ProjectRowProps> = ({ project }) => {
+  const { id, title, color_variant, is_billable } = project;
   const { t } = useLanguage();
-  const color = useColorModeValue(colorsContrast[colorVariant][0], colorsContrast[colorVariant][1]);
+  const color = useColorModeValue(
+    colorsContrast[color_variant][0],
+    colorsContrast[color_variant][1]
+  );
   const { isOpen, open, close } = useDisclosure();
+  const { isOpen: isEditOpen, open: openEdit, close: closeEdit } = useDisclosure();
   const cancelRef = useRef(null);
   const deleteProject = useDeleteRow('projects');
   const toast = useToast();
 
   const handleDelete = async () => {
-    try {
-      await deleteProject.mutateAsync(id);
-      toast({ status: 'success', isClosable: true, duration: 9000, title: t('Project removed') });
-      close();
-    } catch (error) {
-      toast({
-        status: 'error',
-        isClosable: true,
-        duration: 9000,
-        title: t('Error deleting project'),
-        description: error.message,
-      });
+    if (id) {
+      try {
+        await deleteProject.mutateAsync(id);
+        toast({ status: 'success', isClosable: true, duration: 9000, title: t('Project removed') });
+        close();
+      } catch (error) {
+        toast({
+          status: 'error',
+          isClosable: true,
+          duration: 9000,
+          title: t('Error deleting project'),
+          description: error.message,
+        });
+      }
+    } else {
+      toast({ title: t('Cannot delete project without ID'), isClosable: true, duration: 9000 });
     }
   };
+
+  // const handleEdit = () => {};
 
   console.log('ProjectRow render');
   return (
@@ -65,7 +68,7 @@ export const ProjectRow: FC<ProjectRowProps> = ({
           {t(title)}
         </Text>
       </Flex>
-      {isBillable && (
+      {is_billable && (
         <Flex flex="1" justify="center">
           <Text color="teal.500" fontSize="1.4em">
             €
@@ -73,7 +76,9 @@ export const ProjectRow: FC<ProjectRowProps> = ({
         </Flex>
       )}
       <ButtonGroup variant="outline" spacing={3} flex="1" justifyContent="flex-end">
-        <Button colorScheme="blue">{t('Edit')}</Button>
+        <Button colorScheme="blue" onClick={openEdit}>
+          {t('Edit')}
+        </Button>
         <Button colorScheme="red" onClick={open}>
           {t('Delete')}
         </Button>
@@ -103,6 +108,7 @@ export const ProjectRow: FC<ProjectRowProps> = ({
           </AlertDialogContent>
         </AlertDialogOverlay>
       </AlertDialog>
+      <ProjectActionsModal isOpen={isEditOpen} onClose={closeEdit} project={project} />
     </Flex>
   );
 };

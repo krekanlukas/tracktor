@@ -20,33 +20,63 @@ import {
 } from '@chakra-ui/react';
 import { FC, useState } from 'react';
 
-import { colors } from '@/components/Projects';
+import { colors, ProjectDbRow } from '@/components/Projects';
 import { useLanguage } from '@/context/LanguageContext';
 import { useInsertRow } from '@/hooks/useInsertRow';
+import { useUpdateRow } from '@/hooks/useUpdateRow';
 
-type NewProjectModalProps = {
+type ProjectActionsModalProps = {
   onClose: () => void;
   isOpen: boolean;
+  project?: ProjectDbRow;
 };
 
-export const NewProjectModal: FC<NewProjectModalProps> = ({ onClose, isOpen }) => {
+type MutateObject = Pick<
+  ProjectDbRow,
+  'title' | 'color_variant' | 'is_billable' | 'price_per_hour'
+>;
+
+export const ProjectActionsModal: FC<ProjectActionsModalProps> = ({ onClose, isOpen, project }) => {
   const { t } = useLanguage();
-  const [projectTitle, setProjectTitle] = useState('');
-  const [colorVariant, setColorVariant] = useState('teal');
-  const [isBillable, setIsBillable] = useState(false);
-  const [pricePerHour, setPricePerHour] = useState('');
+  const [projectTitle, setProjectTitle] = useState(project?.title ?? '');
+  const [colorVariant, setColorVariant] = useState(project?.color_variant ?? 'teal');
+  const [isBillable, setIsBillable] = useState(project?.is_billable ?? false);
+  const [pricePerHour, setPricePerHour] = useState(project?.price_per_hour ?? '');
   const toast = useToast();
   const addProject = useInsertRow('projects');
+  const editProject = useUpdateRow('projects');
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement | HTMLDivElement>) => {
-    e.preventDefault();
+  const handleEdit = async (mutateObject: MutateObject) => {
+    if (project?.id) {
+      try {
+        await editProject.mutateAsync({
+          updatedRow: {
+            ...mutateObject,
+            user_id: project.user_id,
+            inserted_at: project.inserted_at,
+          },
+          idValue: project?.id,
+        });
+
+        toast({ status: 'success', duration: 9000, isClosable: true, title: t('Project edited') });
+        onClose();
+      } catch (error) {
+        toast({
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+          title: t('Error editing project'),
+          description: error?.message,
+        });
+      }
+    } else {
+      toast({ title: t('Cannot edit project without ID'), isClosable: true, duration: 9000 });
+    }
+  };
+
+  const handleCreate = async (mutateObject: MutateObject) => {
     try {
-      await addProject.mutateAsync({
-        title: projectTitle,
-        color_variant: colorVariant,
-        is_billable: isBillable,
-        price_per_hour: pricePerHour ? +pricePerHour : null,
-      });
+      await addProject.mutateAsync(mutateObject);
 
       toast({ status: 'success', duration: 9000, isClosable: true, title: t('Project created') });
 
@@ -67,12 +97,27 @@ export const NewProjectModal: FC<NewProjectModalProps> = ({ onClose, isOpen }) =
     }
   };
 
-  console.log('NewProjectModal render');
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement | HTMLDivElement>) => {
+    e.preventDefault();
+    const mutateObject: MutateObject = {
+      title: projectTitle,
+      color_variant: colorVariant,
+      is_billable: isBillable,
+      price_per_hour: pricePerHour ? +pricePerHour : null,
+    };
+    if (project) {
+      handleEdit(mutateObject);
+    } else {
+      handleCreate(mutateObject);
+    }
+  };
+
+  console.log('ProjectActionsModal render');
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>{t('Add new project')}</ModalHeader>
+        <ModalHeader>{project ? t('Edit project') : t('Add new project')}</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <Stack as="form" spacing={4} id="create-project-form" onSubmit={handleSubmit}>
@@ -135,9 +180,9 @@ export const NewProjectModal: FC<NewProjectModalProps> = ({ onClose, isOpen }) =
             form="create-project-form"
             colorScheme="teal"
             mr={2}
-            isLoading={addProject.isLoading}
+            isLoading={project ? editProject.isLoading : addProject.isLoading}
           >
-            {t('Create project')}
+            {project ? t('Edit project') : t('Create project')}
           </Button>
           <Button onClick={onClose}>{t('Close')}</Button>
         </ModalFooter>

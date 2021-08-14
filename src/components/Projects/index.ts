@@ -1,4 +1,5 @@
 export { ProjectsPage as default } from './ProjectsPage';
-export * from './NewProjectModal';
+export * from './ProjectActionsModal';
 export * from './ProjectRow';
 export * from './helpers';
+export * from './types';

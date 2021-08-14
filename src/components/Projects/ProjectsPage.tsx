@@ -10,7 +10,7 @@ import {
 } from '@chakra-ui/react';
 
 import { ContentTopbar, EmptyPageMessage, LoadingFallback } from '@/components/Common';
-import { NewProjectModal, ProjectRow } from '@/components/Projects';
+import { ProjectActionsModal, ProjectRow } from '@/components/Projects';
 import { BORDER_COLOR_DARK, TOPBAR_HEIGHT } from '@/config/constants/layout';
 import { useLanguage } from '@/context/LanguageContext';
 import { useDisclosure } from '@/hooks/useDisclosure';
@@ -32,7 +32,7 @@ export const ProjectsPage = () => {
         <Button leftIcon={<AddIcon />} colorScheme="teal" ml="auto" onClick={open}>
           {t('New project')}
         </Button>
-        <NewProjectModal onClose={close} isOpen={isOpen} />
+        <ProjectActionsModal onClose={close} isOpen={isOpen} />
       </ContentTopbar>
       {isLoading ? (
         <Flex h={`calc(100% - ${TOPBAR_HEIGHT * 4}px)`}>
@@ -49,13 +49,7 @@ export const ProjectsPage = () => {
           divider={<StackDivider borderColor={border} />}
         >
           {data.map((project) => (
-            <ProjectRow
-              key={project.id}
-              id={project.id}
-              title={project.title}
-              colorVariant={project.color_variant}
-              isBillable={project.is_billable}
-            />
+            <ProjectRow key={project.id} project={project} />
           ))}
         </Stack>
       ) : (

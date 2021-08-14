@@ -1,16 +1,8 @@
 import { useMutation, useQueryClient } from 'react-query';
 
+import { ProjectDbRow } from '@/components/Projects';
 import { supabase } from '@/config/supabase/supabaseClient';
 import { useAuth } from '@/context/AuthContext';
-
-type ProjectDbRow = {
-  title: string;
-  color_variant: string;
-  is_billable: boolean;
-  price_per_hour: number | null;
-  user_id: string | undefined;
-  inserted_at: Date;
-};
 
 type ProjectDbRowSubset = Pick<
   ProjectDbRow,
