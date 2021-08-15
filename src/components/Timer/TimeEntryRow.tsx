@@ -1,8 +1,15 @@
 import { DeleteIcon } from '@chakra-ui/icons';
 import { Box, Flex, IconButton, Text, useColorModeValue } from '@chakra-ui/react';
-import { useState } from 'react';
+import { FC, useState } from 'react';
 
-export const TimeEntryRow = () => {
+import { formatTime, getFormattedDuration } from '@/components/Timer';
+import { TimeEntryDbRow } from '@/hooks/useInsertRow';
+
+type TimeEntryRowProps = {
+  timeEntry: TimeEntryDbRow;
+};
+
+export const TimeEntryRow: FC<TimeEntryRowProps> = ({ timeEntry }) => {
   const [isHovered, setIsHovered] = useState(false);
   const hoverbg = useColorModeValue('gray.100', 'whiteAlpha.200');
 
@@ -17,15 +24,15 @@ export const TimeEntryRow = () => {
       onMouseLeave={() => setIsHovered(false)}
     >
       <Flex flex={1} align="center">
-        <Text mr={10}>Timer page</Text>
+        <Text mr={10}>{timeEntry.description || 'No description'}</Text>
         <Box borderRadius="100%" w="10px" h="10px" bg={'yellow'} mr={2} />
         <Text color="yellow.500" fontSize="lg">
           Project name
         </Text>
       </Flex>
       <Flex flex={1} justify="flex-end" align="center">
-        <Text>10:19 - 12:14</Text>
-        <Text ml={10}>1:51:13</Text>
+        <Text>{`${formatTime(timeEntry.start)} - ${formatTime(timeEntry.stop ?? '')}`}</Text>
+        <Text ml={10}>{getFormattedDuration(timeEntry.duration)}</Text>
       </Flex>
       <Flex flexBasis="50px" align="center" justify="flex-end">
         <IconButton

@@ -26,7 +26,7 @@ type TimeEntryDbRowSubset = Pick<
   'start' | 'stop' | 'project_id' | 'duration' | 'description' | 'is_billable'
 >;
 
-type QueryKeys = 'projects' | 'active_time_entry' | 'username';
+type QueryKeys = 'projects' | 'active_time_entry' | 'username' | 'time_entries';
 
 type Row = ProjectDbRow | TimeEntryDbRow;
 
@@ -42,7 +42,9 @@ export const useInsertRow = (table: string, queryKey?: QueryKeys) => {
     (row: ProjectDbRowSubset | TimeEntryDbRowSubset) =>
       addRow(table, { ...row, user_id: user?.id, inserted_at: new Date() }),
     {
-      onSuccess: () => queryClient.refetchQueries(queryKey || table),
+      onSuccess: () => {
+        queryClient.refetchQueries(queryKey || table);
+      },
     }
   );
 };

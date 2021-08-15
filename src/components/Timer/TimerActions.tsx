@@ -3,13 +3,7 @@ import { FC, useCallback, useEffect, useState } from 'react';
 
 import { ContentTopbar, LoadingFallback } from '@/components/Common';
 import { ProjectDbRow } from '@/components/Projects';
-import {
-  NewTimeEntry,
-  Timer,
-  ProjectsMenu,
-  ProgressBar,
-  getFormatedDistance,
-} from '@/components/Timer';
+import { NewTimeEntry, Timer, ProjectsMenu, getFormattedDistance } from '@/components/Timer';
 import { useLanguage } from '@/context/LanguageContext';
 import { useActiveTimeEntry } from '@/hooks/useActiveTimeEntry';
 import { useFetchRows } from '@/hooks/useFetchRows';
@@ -29,9 +23,8 @@ export const TimerActions: FC = () => {
   const [isBillable, setIsBillable] = useState(activeTimeEntry?.is_billable ?? false);
   const [taskDescription, setTaskDescription] = useState(activeTimeEntry?.description ?? '');
   const addTimeEntry = useInsertRow('time_entries', 'active_time_entry');
-  const editTimeEntry = useUpdateRow('time_entries', 'active_time_entry');
+  const editTimeEntry = useUpdateRow('time_entries', ['active_time_entry', 'time_entries']);
   const toast = useToast();
-  console.log(activeTimeEntry);
 
   const filterProjectById = useCallback(
     (id: number | null): ProjectDbRow | undefined => {
@@ -70,7 +63,7 @@ export const TimerActions: FC = () => {
 
   const handleEditTimeEntry = async () => {
     if (activeTimeEntry?.id) {
-      const duration = new Date().getTime() - new Date(activeTimeEntry.start).getDate();
+      const duration = new Date().getTime() - new Date(activeTimeEntry.start).getTime();
       const mutationObject: TimeEntryDbRow = {
         ...activeTimeEntry,
         start: activeTimeEntry.start,
@@ -122,7 +115,7 @@ export const TimerActions: FC = () => {
     const timerId =
       activeTimeEntry &&
       setInterval(() => {
-        document.title = getFormatedDistance(new Date(activeTimeEntry.start)) + ' | Tractor';
+        document.title = getFormattedDistance(new Date(activeTimeEntry.start)) + ' | Tractor';
       }, 1000);
     console.log('TimerActions interval commit');
     return () => {
@@ -132,7 +125,7 @@ export const TimerActions: FC = () => {
     };
   }, [activeTimeEntry]);
 
-  console.log('TimerActions render');
+  console.log('TimerActions render', activeTimeEntry);
   return (
     <>
       <ContentTopbar>
@@ -168,9 +161,9 @@ export const TimerActions: FC = () => {
         isLoading={isActiveProjectLoading || addTimeEntry.isLoading}
         start={activeTimeEntry?.start}
       />
-      <ProgressBar
+      {/* <ProgressBar
         projects={[{ percentage: 50, title: 'polovica', colorVariant: 'green', duration: 15000 }]}
-      />
+      /> */}
     </>
   );
 };

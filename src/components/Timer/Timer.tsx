@@ -1,8 +1,7 @@
-import { Box, Flex, Text } from '@chakra-ui/react';
+import { Box, Flex, Skeleton, Text } from '@chakra-ui/react';
 import { FC, useState, useEffect } from 'react';
 
-import { LoadingFallback } from '@/components/Common';
-import { getFormatedDistance } from '@/components/Timer';
+import { getFormattedDistance } from '@/components/Timer';
 import { useLanguage } from '@/context/LanguageContext';
 import { useColorModeString } from '@/hooks/useColorModeString';
 
@@ -29,7 +28,7 @@ export const Timer: FC<TimerProps> = ({
     const intervalId =
       start &&
       setInterval(() => {
-        setTime(getFormatedDistance(new Date(start)));
+        setTime(getFormattedDistance(new Date(start)));
       }, 1000);
     console.log('Timer commit');
     return () => {
@@ -41,21 +40,17 @@ export const Timer: FC<TimerProps> = ({
 
   // console.log('Timer render');
   return (
-    <Flex mt={6} px={6} align="center">
-      {isLoading ? (
-        <LoadingFallback />
-      ) : (
-        <>
-          <Text>{`${description || t('Active timer')}:`}</Text>
-          <Box borderRadius="100%" w="10px" h="10px" bg={formatColor(colorVariant)} ml={2} />
-          <Text color={formatColor(colorVariant)} ml={2}>
-            {projectTitle}
-          </Text>
-          <Text color={formatColor(colorVariant)} ml={2}>
-            {time ?? '0:00:00'}
-          </Text>
-        </>
-      )}
-    </Flex>
+    <Skeleton isLoaded={!isLoading}>
+      <Flex mt={6} px={6} align="center">
+        <Text>{`${description || t('Active timer')}:`}</Text>
+        <Box borderRadius="100%" w="10px" h="10px" bg={formatColor(colorVariant)} ml={2} />
+        <Text color={formatColor(colorVariant)} ml={2}>
+          {projectTitle}
+        </Text>
+        <Text color={formatColor(colorVariant)} ml={2}>
+          {time ?? '0:00:00'}
+        </Text>
+      </Flex>
+    </Skeleton>
   );
 };
