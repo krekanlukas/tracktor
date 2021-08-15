@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, useColorModeValue } from '@chakra-ui/react';
+import { Box, Divider, Flex, Heading, useColorModeValue } from '@chakra-ui/react';
 import { FC } from 'react';
 
 import { TimeEntryRow } from '@/components/Timer';
@@ -20,8 +20,11 @@ export const TimeEntriesGroup: FC = () => {
         <Box flexBasis="50px" />
       </Flex>
       <TimeEntryRow />
+      <Divider />
       <TimeEntryRow />
+      <Divider />
       <TimeEntryRow />
+      <Divider />
       <TimeEntryRow />
     </Flex>
   );

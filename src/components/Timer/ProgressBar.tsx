@@ -9,16 +9,16 @@ type Task = {
 };
 
 type ProgressBarProps = {
-  tasks: Task[];
+  projects: Task[];
 };
 
-export const ProgressBar: FC<ProgressBarProps> = ({ tasks }) => {
+export const ProgressBar: FC<ProgressBarProps> = ({ projects }) => {
   const bg = useColorModeValue('gray.100', 'whiteAlpha.200');
 
   console.log('Progresbar render');
   return (
-    <Box h={tasks.length ? 'max-content' : 4} w="full" mt={6} bg={bg} borderRadius="md" d="flex">
-      {tasks.map((task, index) => (
+    <Box h={projects.length ? 'max-content' : 4} mx={6} mt={6} bg={bg} borderRadius="md" d="flex">
+      {projects.map((task, index) => (
         <Tooltip key={index} label={`${task.title} ${task.percentage}%`} hasArrow>
           <Box
             h="max-content"
@@ -26,7 +26,7 @@ export const ProgressBar: FC<ProgressBarProps> = ({ tasks }) => {
             bg="yellow.500"
             textAlign="center"
             borderLeftRadius={index === 0 ? 'md' : 'none'}
-            borderRightRadius={index === tasks.length - 1 ? 'md' : 'none'}
+            borderRightRadius={index === projects.length - 1 ? 'md' : 'none'}
           >
             <Text size="sm" isTruncated>
               {task.title}

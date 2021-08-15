@@ -1,6 +1,6 @@
 export const sk = {
   // Navigation
-  Track: 'Sledovať',
+  Track: 'Zaznamenať',
   Analyze: 'Analyzovať',
   Manage: 'Spravovať',
   Timer: 'Časovač',

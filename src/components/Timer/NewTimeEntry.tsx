@@ -1,53 +1,39 @@
 import { Box, Button, IconButton, Input, Stack, Tooltip } from '@chakra-ui/react';
-import { FC, useState, useEffect } from 'react';
-import { FaPlay } from 'react-icons/fa';
+import { Dispatch, FC, SetStateAction } from 'react';
+import { FaPlay, FaStop } from 'react-icons/fa';
 
-import { getFormatedDistance, ProjectsMenu } from '@/components/Timer';
 import { useLanguage } from '@/context/LanguageContext';
 
-export const NewTimeEntry: FC = () => {
+type NewTimeEntryProps = {
+  isBillable: boolean;
+  setIsBillable: Dispatch<SetStateAction<boolean>>;
+  taskDescription: string;
+  setTaskDescription: Dispatch<SetStateAction<string>>;
+  handleCreateTimeEntry: () => Promise<void>;
+  handleEditTimeEntry: () => Promise<void>;
+  isActiveTimeEntry: boolean;
+};
+
+export const NewTimeEntry: FC<NewTimeEntryProps> = ({
+  children,
+  isBillable,
+  setIsBillable,
+  taskDescription,
+  setTaskDescription,
+  handleCreateTimeEntry,
+  handleEditTimeEntry,
+  isActiveTimeEntry,
+}) => {
   const { t } = useLanguage();
-  const [description, setDescription] = useState('');
-  const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
-  const [isBillable, setIsBillable] = useState(false);
-  const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
-
-  useEffect(() => {
-    console.log('NewTimeEntry commit');
-    return () => {
-      console.log('NewTimeEntry unmount commit');
-      if (intervalId) {
-        clearInterval(intervalId);
-      }
-    };
-  }, [intervalId]);
-
-  const handleCreateTimeEntry = () => {
-    console.log({
-      start: new Date(),
-      project_id: selectedProjectId,
-      description,
-      is_billable: isBillable,
-    });
-    setDescription('');
-    setSelectedProjectId(null);
-    setIsBillable(false);
-
-    const start = new Date();
-    const intervalId = setInterval(() => {
-      document.title = `${getFormatedDistance(start)} | Tracktor`;
-    }, 1000);
-    setIntervalId(intervalId);
-  };
 
   console.log('NewTimeEntry render');
   return (
-    <Box w="full" d="flex">
+    <Box w="full" d="flex" align="center">
       <Input
         focusBorderColor="teal.500"
         placeholder={t('What are you working on?')}
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
+        value={taskDescription}
+        onChange={(e) => setTaskDescription(e.target.value)}
       />
       <Stack direction="row" spacing={4} ml={4}>
         <Tooltip
@@ -64,17 +50,26 @@ export const NewTimeEntry: FC = () => {
             €
           </Button>
         </Tooltip>
-        <Box>
-          <ProjectsMenu setSelectedProjectId={setSelectedProjectId} setIsBillable={setIsBillable} />
-        </Box>
-        <IconButton
-          colorScheme="teal"
-          aria-label="Start timer"
-          size="md"
-          icon={<FaPlay />}
-          borderRadius="full"
-          onClick={handleCreateTimeEntry}
-        />
+        <Box>{children}</Box>
+        {isActiveTimeEntry ? (
+          <IconButton
+            colorScheme="teal"
+            aria-label="End timer"
+            size="md"
+            icon={<FaStop />}
+            borderRadius="full"
+            onClick={handleEditTimeEntry}
+          />
+        ) : (
+          <IconButton
+            colorScheme="teal"
+            aria-label="Start timer"
+            size="md"
+            icon={<FaPlay />}
+            borderRadius="full"
+            onClick={handleCreateTimeEntry}
+          />
+        )}
       </Stack>
     </Box>
   );
