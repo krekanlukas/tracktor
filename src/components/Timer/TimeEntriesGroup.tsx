@@ -1,21 +1,19 @@
-import { Box, Divider, Flex, Heading, useColorModeValue } from '@chakra-ui/react';
-import { FC, Fragment } from 'react';
+import { Box, Flex, Heading, useColorModeValue } from '@chakra-ui/react';
+import { FC } from 'react';
 
-import {
-  TimeEntryRow,
-  formatDateHeading,
-  sumDurations,
-  getFormattedDuration,
-} from '@/components/Timer';
+import { formatDateHeading } from '@/components/Timer';
 import { BORDER_COLOR_DARK } from '@/config/constants/layout';
-import { TimeEntryDbRow } from '@/hooks/useInsertRow';
 
 type TimeEntriesGroupProps = {
-  timeEntries: TimeEntryDbRow[];
   groupTitle: string;
+  groupDuration: string;
 };
 
-export const TimeEntriesGroup: FC<TimeEntriesGroupProps> = ({ timeEntries, groupTitle }) => {
+export const TimeEntriesGroup: FC<TimeEntriesGroupProps> = ({
+  children,
+  groupDuration,
+  groupTitle,
+}) => {
   const bg = useColorModeValue('white', BORDER_COLOR_DARK);
 
   console.log('TimeEntriesGroup render');
@@ -26,16 +24,11 @@ export const TimeEntriesGroup: FC<TimeEntriesGroupProps> = ({ timeEntries, group
           {formatDateHeading(groupTitle)}
         </Heading>
         <Heading ml="auto" as="h4" size="md">
-          {getFormattedDuration(sumDurations(timeEntries))}
+          {groupDuration}
         </Heading>
         <Box flexBasis="50px" />
       </Flex>
-      {timeEntries.map((timeEntry, index) => (
-        <Fragment key={timeEntry.id}>
-          <TimeEntryRow timeEntry={timeEntry} />
-          {index !== timeEntries.length - 1 && <Divider />}
-        </Fragment>
-      ))}
+      {children}
     </Flex>
   );
 };

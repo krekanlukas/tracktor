@@ -6,4 +6,5 @@ export * from './TimeEntryRow';
 export * from './NewTimeEntry';
 export * from './Timer';
 export * from './TimerActions';
+export * from './TimerData';
 export * from './helpers';

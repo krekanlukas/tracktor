@@ -3,15 +3,23 @@ import { Box, Flex, IconButton, Text, useColorModeValue } from '@chakra-ui/react
 import { FC, useState } from 'react';
 
 import { formatTime, getFormattedDuration } from '@/components/Timer';
+import { useColorModeString } from '@/hooks/useColorModeString';
 import { TimeEntryDbRow } from '@/hooks/useInsertRow';
 
 type TimeEntryRowProps = {
   timeEntry: TimeEntryDbRow;
+  projectTitle: string;
+  projectColorVariant: string;
 };
 
-export const TimeEntryRow: FC<TimeEntryRowProps> = ({ timeEntry }) => {
+export const TimeEntryRow: FC<TimeEntryRowProps> = ({
+  timeEntry,
+  projectTitle,
+  projectColorVariant,
+}) => {
   const [isHovered, setIsHovered] = useState(false);
   const hoverbg = useColorModeValue('gray.100', 'whiteAlpha.200');
+  const formatColor = useColorModeString();
 
   console.log('TimeEntryRow render');
   return (
@@ -25,9 +33,9 @@ export const TimeEntryRow: FC<TimeEntryRowProps> = ({ timeEntry }) => {
     >
       <Flex flex={1} align="center">
         <Text mr={10}>{timeEntry.description || 'No description'}</Text>
-        <Box borderRadius="100%" w="10px" h="10px" bg={'yellow'} mr={2} />
-        <Text color="yellow.500" fontSize="lg">
-          Project name
+        <Box borderRadius="100%" w="10px" h="10px" bg={formatColor(projectColorVariant)} mr={2} />
+        <Text color={formatColor(projectColorVariant)} fontSize="lg">
+          {projectTitle}
         </Text>
       </Flex>
       <Flex flex={1} justify="flex-end" align="center">

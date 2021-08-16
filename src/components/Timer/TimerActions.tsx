@@ -84,6 +84,8 @@ export const TimerActions: FC = () => {
           isClosable: true,
           title: t('Time entry stopped'),
         });
+        setSelectedProjectId(null);
+        setTaskDescription('');
       } catch (error) {
         toast({
           status: 'error',

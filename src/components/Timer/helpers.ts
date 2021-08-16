@@ -1,3 +1,4 @@
+import { ProjectDbRow } from '@/components/Projects';
 import { TimeEntryDbRow } from '@/hooks/useInsertRow';
 
 const getHoursString = (distance: number) => {
@@ -51,4 +52,18 @@ export const sumDurations = (timeEntries: TimeEntryDbRow[]) => {
     sum += timeEntry.duration ?? 0;
     return sum;
   }, 0);
+};
+
+export const getProjectProperties = (
+  timeEntry: TimeEntryDbRow,
+  projects: ProjectDbRow[] | undefined | null
+) => {
+  const defaultProperties = { colorVariant: 'gray', title: 'No project' };
+  if (projects && timeEntry.project_id) {
+    const foundProject = projects.filter((project) => project.id === timeEntry.project_id)[0];
+    if (foundProject)
+      return { colorVariant: foundProject.color_variant, title: foundProject.title };
+    return defaultProperties;
+  }
+  return defaultProperties;
 };
