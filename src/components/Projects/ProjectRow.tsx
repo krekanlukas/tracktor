@@ -10,13 +10,14 @@ import {
   ButtonGroup,
   Flex,
   Text,
-  useColorModeValue,
+  Tooltip,
   useToast,
 } from '@chakra-ui/react';
 import { FC, useRef } from 'react';
 
-import { colorsContrast, ProjectActionsModal, ProjectDbRow } from '@/components/Projects';
+import { ProjectActionsModal, ProjectDbRow } from '@/components/Projects';
 import { useLanguage } from '@/context/LanguageContext';
+import { useColorModeString } from '@/hooks/useColorModeString';
 import { useDeleteRow } from '@/hooks/useDeleteRow';
 import { useDisclosure } from '@/hooks/useDisclosure';
 
@@ -27,15 +28,12 @@ type ProjectRowProps = {
 export const ProjectRow: FC<ProjectRowProps> = ({ project }) => {
   const { id, title, color_variant, is_billable } = project;
   const { t } = useLanguage();
-  const color = useColorModeValue(
-    colorsContrast[color_variant][0],
-    colorsContrast[color_variant][1]
-  );
   const { isOpen, open, close } = useDisclosure();
   const { isOpen: isEditOpen, open: openEdit, close: closeEdit } = useDisclosure();
   const cancelRef = useRef(null);
   const deleteProject = useDeleteRow('projects');
   const toast = useToast();
+  const formatColor = useColorModeString();
 
   const handleDelete = async () => {
     if (id) {
@@ -60,16 +58,18 @@ export const ProjectRow: FC<ProjectRowProps> = ({ project }) => {
   return (
     <Flex _hover={{ cursor: 'pointer' }} p={3} align="center">
       <Flex align="center" flex="1">
-        <Box borderRadius="100%" w="10px" h="10px" bg={color} mr={2} />
-        <Text color={color} fontSize="lg">
+        <Box borderRadius="100%" w="10px" h="10px" bg={formatColor(color_variant)} mr={2} />
+        <Text color={formatColor(color_variant)} fontSize="lg">
           {t(title)}
         </Text>
       </Flex>
       {is_billable && (
         <Flex flex="1" justify="center">
-          <Text color="teal.500" fontSize="1.4em">
-            €
-          </Text>
+          <Tooltip aria-label="Project is billable" label={t('Project is billable')}>
+            <Text color={formatColor('teal')} fontSize="1.4em">
+              €
+            </Text>
+          </Tooltip>
         </Flex>
       )}
       <ButtonGroup variant="outline" spacing={3} flex="1" justifyContent="flex-end">

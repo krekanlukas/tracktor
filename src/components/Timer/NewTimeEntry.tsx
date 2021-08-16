@@ -38,7 +38,7 @@ export const NewTimeEntry: FC<NewTimeEntryProps> = ({
       <Stack direction="row" spacing={4} ml={4}>
         <Tooltip
           label={isBillable ? t('Set task to unbillable') : t('Set task to billable')}
-          aria-label="billable tooltip"
+          aria-label="Billable tooltip"
         >
           <Button
             colorScheme={isBillable ? 'teal' : 'gray'}
@@ -51,25 +51,19 @@ export const NewTimeEntry: FC<NewTimeEntryProps> = ({
           </Button>
         </Tooltip>
         <Box>{children}</Box>
-        {isActiveTimeEntry ? (
+        <Tooltip
+          label={isActiveTimeEntry ? t('End timer') : t('Start timer')}
+          aria-label="Timer tooltip"
+        >
           <IconButton
             colorScheme="teal"
-            aria-label="End timer"
+            aria-label={isActiveTimeEntry ? 'End timer' : 'Start timer'}
             size="md"
-            icon={<FaStop />}
+            icon={isActiveTimeEntry ? <FaStop /> : <FaPlay />}
             borderRadius="full"
-            onClick={handleEditTimeEntry}
+            onClick={isActiveTimeEntry ? handleEditTimeEntry : handleCreateTimeEntry}
           />
-        ) : (
-          <IconButton
-            colorScheme="teal"
-            aria-label="Start timer"
-            size="md"
-            icon={<FaPlay />}
-            borderRadius="full"
-            onClick={handleCreateTimeEntry}
-          />
-        )}
+        </Tooltip>
       </Stack>
     </Box>
   );

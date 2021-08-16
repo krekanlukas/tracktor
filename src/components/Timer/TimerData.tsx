@@ -1,7 +1,7 @@
-import { Divider, Stack } from '@chakra-ui/react';
+import { Divider, Flex, Stack } from '@chakra-ui/react';
 import { Fragment } from 'react';
 
-import { LoadingFallback } from '@/components/Common';
+import { EmptyPageMessage, LoadingFallback } from '@/components/Common';
 import {
   TimeEntriesGroup,
   TimeEntryRow,
@@ -9,21 +9,21 @@ import {
   sumDurations,
   getProjectProperties,
 } from '@/components/Timer';
+import { useLanguage } from '@/context/LanguageContext';
 import { useFetchRows } from '@/hooks/useFetchRows';
 import { useSortedTimeEntries } from '@/hooks/useSortedTimeEntries';
 
 export const TimerData = () => {
+  const { t } = useLanguage();
   const { sortedTimeEntries, isLoading } = useSortedTimeEntries();
   const { data: projects, isLoading: isProjectsLoading } = useFetchRows('projects');
-  console.log(projects, isProjectsLoading);
 
   console.log('TimerData render');
   return (
-    <Stack direction="column" spacing={12} my={12} px={6} minH="200px">
-      {isLoading ? (
+    <Stack direction="column" spacing={12} my={12} px={6} minH="200px" flexGrow={1}>
+      {isLoading || isProjectsLoading ? (
         <LoadingFallback />
-      ) : (
-        sortedTimeEntries &&
+      ) : sortedTimeEntries && Object.keys(sortedTimeEntries).length > 0 ? (
         Object.entries(sortedTimeEntries).map(([key, timeEntries]) => (
           <TimeEntriesGroup
             key={key}
@@ -42,6 +42,10 @@ export const TimerData = () => {
             ))}
           </TimeEntriesGroup>
         ))
+      ) : (
+        <Flex grow={1} align="center" justify="center">
+          <EmptyPageMessage info={t('Go ahead and track some time.')} />
+        </Flex>
       )}
     </Stack>
   );
