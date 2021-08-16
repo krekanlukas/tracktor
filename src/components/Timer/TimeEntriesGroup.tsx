@@ -1,8 +1,8 @@
-import { Box, Flex, Heading, useColorModeValue } from '@chakra-ui/react';
+import { Box, Flex, Heading } from '@chakra-ui/react';
 import { FC } from 'react';
 
+import { CardContainer } from '@/components/Common';
 import { formatDateHeading } from '@/components/Timer';
-import { BORDER_COLOR_DARK } from '@/config/constants/layout';
 
 type TimeEntriesGroupProps = {
   groupTitle: string;
@@ -14,11 +14,9 @@ export const TimeEntriesGroup: FC<TimeEntriesGroupProps> = ({
   groupDuration,
   groupTitle,
 }) => {
-  const bg = useColorModeValue('white', BORDER_COLOR_DARK);
-
   console.log('TimeEntriesGroup render');
   return (
-    <Flex direction="column" shadow="md" borderRadius="md" bg={bg}>
+    <CardContainer>
       <Flex px={6} py={6} align="center">
         <Heading as="h4" size="lg" color="teal.500">
           {formatDateHeading(groupTitle)}
@@ -29,6 +27,6 @@ export const TimeEntriesGroup: FC<TimeEntriesGroupProps> = ({
         <Box flexBasis="50px" />
       </Flex>
       {children}
-    </Flex>
+    </CardContainer>
   );
 };

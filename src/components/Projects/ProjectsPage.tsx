@@ -27,7 +27,7 @@ export const ProjectsPage = () => {
   return (
     <Box w="full">
       <ContentTopbar>
-        <Heading>Projects</Heading>
+        <Heading>{t('Projects')}</Heading>
         <Button leftIcon={<AddIcon />} colorScheme="teal" ml="auto" onClick={open}>
           {t('New project')}
         </Button>

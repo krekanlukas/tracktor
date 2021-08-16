@@ -12,6 +12,7 @@ import {
 
 export const Sidebar = () => {
   const borderColor = useColorModeValue(BORDER_COLOR_LIGHT, BORDER_COLOR_DARK);
+  const bg = useColorModeValue('white', 'gray.800');
 
   console.log('Sidebar render');
   return (
@@ -27,6 +28,8 @@ export const Sidebar = () => {
       top="0"
       left="0"
       boxShadow="md"
+      bg={bg}
+      zIndex="docked"
     >
       <Flex h={TOPBAR_HEIGHT} alignItems="center" justify="center" mb={4}>
         <Logo />
