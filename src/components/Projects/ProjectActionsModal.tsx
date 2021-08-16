@@ -59,6 +59,7 @@ export const ProjectActionsModal: FC<ProjectActionsModalProps> = ({ onClose, isO
         });
 
         toast({ status: 'success', duration: 9000, isClosable: true, title: t('Project edited') });
+        onClose();
       } catch (error) {
         toast({
           status: 'error',

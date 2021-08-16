@@ -18,7 +18,7 @@ export const TimerData = () => {
   const { sortedTimeEntries, isLoading } = useSortedTimeEntries();
   const { data: projects, isLoading: isProjectsLoading } = useFetchRows('projects');
 
-  console.log('TimerData render');
+  console.log('TimerData render', sortedTimeEntries, isLoading);
   return (
     <Stack direction="column" spacing={12} my={12} px={6} minH="200px" flexGrow={1}>
       {isLoading || isProjectsLoading ? (

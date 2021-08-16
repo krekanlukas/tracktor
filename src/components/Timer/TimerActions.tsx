@@ -105,6 +105,8 @@ export const TimerActions: FC = () => {
     }
   };
 
+  const isLoading = isActiveProjectLoading || addTimeEntry.isLoading || editTimeEntry.isLoading;
+
   useEffect(() => {
     const selectedProject = filterProjectById(selectedProjectId);
     setSelectedProjectColor(selectedProject?.color_variant ?? 'gray');
@@ -131,7 +133,7 @@ export const TimerActions: FC = () => {
   return (
     <>
       <ContentTopbar>
-        {isActiveProjectLoading || addTimeEntry.isLoading ? (
+        {isLoading ? (
           <LoadingFallback />
         ) : (
           <NewTimeEntry
@@ -160,7 +162,7 @@ export const TimerActions: FC = () => {
         description={taskDescription}
         projectTitle={selectedProjectTitle}
         colorVariant={selectedProjectColor}
-        isLoading={isActiveProjectLoading || addTimeEntry.isLoading}
+        isLoading={isLoading}
         start={activeTimeEntry?.start}
       />
       {/* <ProgressBar

@@ -1,20 +1,7 @@
-import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
-  Box,
-  Button,
-  ButtonGroup,
-  Flex,
-  Text,
-  Tooltip,
-  useToast,
-} from '@chakra-ui/react';
-import { FC, useRef } from 'react';
+import { Box, Button, ButtonGroup, Flex, Text, Tooltip } from '@chakra-ui/react';
+import { FC } from 'react';
 
+import { AlertDialogDelete } from '@/components/Common';
 import { ProjectActionsModal, ProjectDbRow } from '@/components/Projects';
 import { useLanguage } from '@/context/LanguageContext';
 import { useColorModeString } from '@/hooks/useColorModeString';
@@ -30,29 +17,8 @@ export const ProjectRow: FC<ProjectRowProps> = ({ project }) => {
   const { t } = useLanguage();
   const { isOpen, open, close } = useDisclosure();
   const { isOpen: isEditOpen, open: openEdit, close: closeEdit } = useDisclosure();
-  const cancelRef = useRef(null);
-  const deleteProject = useDeleteRow('projects');
-  const toast = useToast();
+  const { handleDelete, isDeleting } = useDeleteRow('projects', id, 'Project');
   const formatColor = useColorModeString();
-
-  const handleDelete = async () => {
-    if (id) {
-      try {
-        await deleteProject.mutateAsync(id);
-        toast({ status: 'success', isClosable: true, duration: 9000, title: t('Project removed') });
-      } catch (error) {
-        toast({
-          status: 'error',
-          isClosable: true,
-          duration: 9000,
-          title: t('Error deleting project'),
-          description: error.message,
-        });
-      }
-    } else {
-      toast({ title: t('Cannot delete project without ID'), isClosable: true, duration: 9000 });
-    }
-  };
 
   console.log('ProjectRow render');
   return (
@@ -80,31 +46,13 @@ export const ProjectRow: FC<ProjectRowProps> = ({ project }) => {
           {t('Delete')}
         </Button>
       </ButtonGroup>
-      <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={close}>
-        <AlertDialogOverlay>
-          <AlertDialogContent>
-            <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              {t('Delete project')}
-            </AlertDialogHeader>
-            <AlertDialogBody>
-              {t(`Are you sure? You can't undo this action afterwards.`)}
-            </AlertDialogBody>
-            <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={close}>
-                {t('Cancel')}
-              </Button>
-              <Button
-                colorScheme="red"
-                onClick={handleDelete}
-                ml={3}
-                isLoading={deleteProject.isLoading}
-              >
-                {t('Delete')}
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
+      <AlertDialogDelete
+        isOpen={isOpen}
+        close={close}
+        heading={t('Delete project')}
+        handleDelete={handleDelete}
+        isLoading={isDeleting}
+      />
       <ProjectActionsModal isOpen={isEditOpen} onClose={closeEdit} project={project} />
     </Flex>
   );

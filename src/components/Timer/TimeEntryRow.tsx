@@ -2,8 +2,12 @@ import { DeleteIcon } from '@chakra-ui/icons';
 import { Box, Flex, IconButton, Text, useColorModeValue } from '@chakra-ui/react';
 import { FC, useState } from 'react';
 
+import { AlertDialogDelete } from '@/components/Common';
 import { formatTime, getFormattedDuration } from '@/components/Timer';
+import { useLanguage } from '@/context/LanguageContext';
 import { useColorModeString } from '@/hooks/useColorModeString';
+import { useDeleteRow } from '@/hooks/useDeleteRow';
+import { useDisclosure } from '@/hooks/useDisclosure';
 import { TimeEntryDbRow } from '@/hooks/useInsertRow';
 
 type TimeEntryRowProps = {
@@ -17,9 +21,12 @@ export const TimeEntryRow: FC<TimeEntryRowProps> = ({
   projectTitle,
   projectColorVariant,
 }) => {
+  const { t } = useLanguage();
   const [isHovered, setIsHovered] = useState(false);
   const hoverbg = useColorModeValue('gray.100', 'whiteAlpha.200');
   const formatColor = useColorModeString();
+  const { isOpen, open, close } = useDisclosure();
+  const { handleDelete, isDeleting } = useDeleteRow('time_entries', timeEntry.id, 'Time entry');
 
   console.log('TimeEntryRow render');
   return (
@@ -50,8 +57,16 @@ export const TimeEntryRow: FC<TimeEntryRowProps> = ({
           colorScheme="red"
           aria-label="Delete time entry"
           size="sm"
+          onClick={open}
         />
       </Flex>
+      <AlertDialogDelete
+        isOpen={isOpen}
+        close={close}
+        heading={t('Delete time entry')}
+        handleDelete={handleDelete}
+        isLoading={isDeleting}
+      />
     </Flex>
   );
 };
