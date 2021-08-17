@@ -2,19 +2,19 @@ import { ArrowBackIcon, ArrowForwardIcon, CalendarIcon } from '@chakra-ui/icons'
 import { Box, Button, ButtonGroup, IconButton, Stack } from '@chakra-ui/react';
 import { Dispatch, FC, SetStateAction } from 'react';
 
-import { ReportDatePeriod, WeekRange, getWeekRange, formatWeekRange } from '@/components/Reports';
+import { ReportView, WeekRange, getWeekRange, formatWeekRange } from '@/components/Reports';
 import { useLanguage } from '@/context/LanguageContext';
 
 type DateFilterButtonsProps = {
-  datePeriod: ReportDatePeriod;
-  setDatePeriod: Dispatch<SetStateAction<ReportDatePeriod>>;
+  reportView: ReportView;
+  setReportView: Dispatch<SetStateAction<ReportView>>;
   selectedRange: WeekRange;
   setSelectedRange: Dispatch<SetStateAction<WeekRange>>;
 };
 
 export const DateFilterButtons: FC<DateFilterButtonsProps> = ({
-  datePeriod,
-  setDatePeriod,
+  reportView,
+  setReportView,
   selectedRange,
   setSelectedRange,
 }) => {
@@ -25,27 +25,19 @@ export const DateFilterButtons: FC<DateFilterButtonsProps> = ({
     <Box px={6}>
       <Stack mt={6} spacing={3} direction="row">
         <Button
-          variant={datePeriod === 'Monthly' ? 'solid' : 'outline'}
+          variant={reportView === 'Summary' ? 'solid' : 'outline'}
           colorScheme="teal"
-          onClick={() => setDatePeriod('Monthly')}
+          onClick={() => setReportView('Summary')}
           isDisabled
         >
-          {t('Monthly')}
+          {t('Summary')}
         </Button>
         <Button
-          variant={datePeriod === 'Weekly' ? 'solid' : 'outline'}
+          variant={reportView === 'Details' ? 'solid' : 'outline'}
           colorScheme="teal"
-          onClick={() => setDatePeriod('Weekly')}
+          onClick={() => setReportView('Details')}
         >
-          {t('Weekly')}
-        </Button>
-        <Button
-          variant={datePeriod === 'Daily' ? 'solid' : 'outline'}
-          colorScheme="teal"
-          onClick={() => setDatePeriod('Daily')}
-          isDisabled
-        >
-          {t('Daily')}
+          {t('Details')}
         </Button>
       </Stack>
       <ButtonGroup isAttached variant="outline" mt={6}>

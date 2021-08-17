@@ -21,9 +21,7 @@ export const TimerData = () => {
   console.log('TimerData render', sortedTimeEntries, isLoading);
   return (
     <Stack direction="column" spacing={12} my={12} px={6} minH="200px" flexGrow={1}>
-      {isLoading || isProjectsLoading ? (
-        <LoadingFallback />
-      ) : sortedTimeEntries && Object.keys(sortedTimeEntries).length > 0 ? (
+      {sortedTimeEntries && Object.keys(sortedTimeEntries).length > 0 ? (
         Object.entries(sortedTimeEntries).map(([key, timeEntries]) => (
           <TimeEntriesGroup
             key={key}
@@ -44,7 +42,11 @@ export const TimerData = () => {
         ))
       ) : (
         <Flex grow={1} align="center" justify="center">
-          <EmptyPageMessage info={t('Go ahead and track some time.')} />
+          {isLoading || isProjectsLoading ? (
+            <LoadingFallback />
+          ) : (
+            <EmptyPageMessage info={t('Go ahead and track some time.')} />
+          )}
         </Flex>
       )}
     </Stack>

@@ -2,7 +2,7 @@ import { ProjectDbRow } from '@/components/Projects';
 import { TimeEntryDbRow } from '@/hooks/useInsertRow';
 
 const getHoursString = (distance: number) => {
-  return Math.floor(distance / (1000 * 60 * 60 * 24));
+  return Math.floor(distance / (1000 * 60 * 60));
 };
 const getMinutesString = (distance: number) => {
   return ('0' + Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))).slice(-2);

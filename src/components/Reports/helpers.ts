@@ -1,4 +1,9 @@
-import { WeekRange } from './types';
+import { WeekRange } from '@/components/Reports';
+import { GroupedTimeEntry } from '@/hooks/useWeeklyReports';
+
+// CONSTANTS
+export const TITLE_CELL_MIN_WIDTH = '180px';
+export const CELL_MIN_WIDTH = '70px';
 
 export const getWeekRange = (date: Date, action?: 'next' | 'previous'): WeekRange => {
   const current = new Date(date);
@@ -34,4 +39,52 @@ export const formatWeekRange = ({ firstDay, lastDay }: WeekRange) => {
 export const getWeekDays = (language?: string) => {
   if (language === 'sk') return ['Pon', 'Uto', 'Str', 'Stv', 'Pia', 'Sob', 'Ned'] as const;
   return ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] as const;
+};
+
+export const getDaysArray = ({ firstDay, lastDay }: WeekRange) => {
+  const daysArray: string[] = [];
+  const currentDate = new Date(firstDay);
+  const lastDate = new Date(lastDay);
+
+  while (currentDate <= lastDate) {
+    daysArray.push(new Date(currentDate).toDateString());
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
+
+  return daysArray;
+};
+
+export const mapDurations = (timeEntries: GroupedTimeEntry[], daysArray: string[]) => {
+  return timeEntries.map((timeEntry) => {
+    return {
+      ...timeEntry,
+      durations: daysArray.map((dayString) => {
+        if (dayString === new Date(timeEntry.start).toDateString()) {
+          return timeEntry.duration;
+        }
+        return null;
+      }),
+    };
+  });
+};
+
+export const mapDurationsWithSum = (timeEntries: GroupedTimeEntry[], daysArray: string[]) => {
+  return daysArray.map((dayString) => {
+    const durationSum = timeEntries.reduce((sum, timeEntry) => {
+      if (new Date(timeEntry.start).toDateString() === dayString) {
+        sum += timeEntry.duration;
+      }
+      return sum;
+    }, 0);
+    return durationSum;
+  });
+};
+
+export const sumDurations = (durations: (number | null)[]) => {
+  const sum = durations.reduce((sum, duration) => {
+    if (sum === null) sum = 0;
+    if (duration) sum += duration;
+    return sum;
+  }, 0);
+  return sum ?? 0;
 };

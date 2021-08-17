@@ -1,50 +1,54 @@
-import { Flex, Heading } from '@chakra-ui/react';
+import { Divider, Flex, Heading } from '@chakra-ui/react';
 import { useState } from 'react';
 
-import { ContentTopbar, EmptyPageMessage } from '@/components/Common';
+import { ContentTopbar, EmptyPageMessage, LoadingFallback } from '@/components/Common';
 import {
-  ReportDatePeriod,
+  ReportView,
   DateFilterButtons,
   getWeekRange,
-  ReportsData,
+  TimeSumsTable,
+  TimeSumsRowsGroup,
 } from '@/components/Reports';
 import { useLanguage } from '@/context/LanguageContext';
+import { useWeeklyReports } from '@/hooks/useWeeklyReports';
 
 export const ReportsPage = () => {
   const { t } = useLanguage();
-  const [datePeriod, setDatePeriod] = useState<ReportDatePeriod>('Weekly');
+  const [reportView, setReportView] = useState<ReportView>('Details');
   const [selectedRange, setSelectedRange] = useState(() => getWeekRange(new Date()));
-  const isEmpty = false;
+  const { data, isLoading } = useWeeklyReports(selectedRange);
 
-  // const fetchData = async () => {
-  //   const { data, error } = await supabase.from('time_entries').select(`
-  //     *,
-  //     project: project_id (
-  //       id,
-  //       title
-  //     )
-  //   `);
-  //   if (error) console.log(error);
-  //   console.log(data);
-  // };
-
-  console.log('Reports render');
+  console.log('Reports render', data, isLoading);
   return (
     <Flex grow={1} w="full" direction="column">
       <ContentTopbar>
         <Heading>{t('Reports')}</Heading>
       </ContentTopbar>
       <DateFilterButtons
-        datePeriod={datePeriod}
-        setDatePeriod={setDatePeriod}
+        reportView={reportView}
+        setReportView={setReportView}
         selectedRange={selectedRange}
         setSelectedRange={setSelectedRange}
       />
-      {!isEmpty ? (
-        <ReportsData />
+      {data && Object.keys(data).length > 0 ? (
+        <TimeSumsTable>
+          <Divider />
+          {Object.entries(data).map(([key, timeEntries]) => (
+            <TimeSumsRowsGroup
+              key={key}
+              timeEntries={timeEntries}
+              title={key}
+              selectedRange={selectedRange}
+            />
+          ))}
+        </TimeSumsTable>
       ) : (
         <Flex grow={1} justify="center">
-          <EmptyPageMessage info={t('Try different filters or track some time.')} />
+          {isLoading ? (
+            <LoadingFallback />
+          ) : (
+            <EmptyPageMessage info={t('Try different filters or track some time.')} />
+          )}
         </Flex>
       )}
     </Flex>
