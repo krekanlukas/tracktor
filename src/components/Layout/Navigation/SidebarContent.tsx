@@ -1,19 +1,19 @@
-import { Flex, UnorderedList, ListItem, Button, Text, Box, Divider } from '@chakra-ui/react';
+import { Flex, UnorderedList, ListItem, Text, Box, Divider } from '@chakra-ui/react';
 import { Fragment } from 'react';
 import { IoBriefcaseOutline, IoDocumentTextOutline } from 'react-icons/io5';
 import { MdTimer } from 'react-icons/md';
-import { Link, useLocation } from 'react-router-dom';
 
-import { QuickSettings, UserInfoMenu } from '@/components/Layout/Navigation';
+import { QuickSettings, UserInfoMenu, NavigationItem } from '@/components/Layout/Navigation';
 import { ROUTES } from '@/config/constants/routes';
 import { useLanguage } from '@/context/LanguageContext';
+import { useActiveTimeEntry } from '@/hooks/useActiveTimeEntry';
 
 type NavigationItemsGroup = {
   groupTitle: string;
-  navigationItems: NavigationItem[];
+  navigationItems: NavigationItemType[];
 };
 
-type NavigationItem = {
+export type NavigationItemType = {
   name: string;
   to: string;
   icon: JSX.Element;
@@ -54,7 +54,7 @@ const navigationItemsGroups: NavigationItemsGroup[] = [
 
 export const SidebarContent = () => {
   const { t } = useLanguage();
-  const { pathname } = useLocation();
+  const { data: activeTimeEntry } = useActiveTimeEntry();
 
   console.log('SidebarContent render');
   return (
@@ -66,19 +66,11 @@ export const SidebarContent = () => {
               <Text fontSize="xs">{t(navigationItemsGroup.groupTitle)}</Text>
             </ListItem>
             {navigationItemsGroup.navigationItems.map((navigationItem, index) => (
-              <ListItem key={index}>
-                <Link to={navigationItem.to}>
-                  <Button
-                    leftIcon={navigationItem.icon}
-                    isFullWidth
-                    justifyContent="flex-start"
-                    variant={pathname === navigationItem.to ? 'solid' : 'outline'}
-                    colorScheme={pathname === navigationItem.to ? 'teal' : 'gray'}
-                  >
-                    {t(navigationItem.name)}
-                  </Button>
-                </Link>
-              </ListItem>
+              <NavigationItem
+                key={index}
+                navigationItem={navigationItem}
+                start={activeTimeEntry?.start}
+              />
             ))}
           </Fragment>
         ))}

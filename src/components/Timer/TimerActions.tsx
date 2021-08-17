@@ -3,7 +3,7 @@ import { FC, useCallback, useEffect, useState } from 'react';
 
 import { ContentTopbar, LoadingFallback } from '@/components/Common';
 import { ProjectDbRow } from '@/components/Projects';
-import { NewTimeEntry, Timer, ProjectsMenu, getFormattedDistance } from '@/components/Timer';
+import { NewTimeEntry, Timer, ProjectsMenu } from '@/components/Timer';
 import { useLanguage } from '@/context/LanguageContext';
 import { useActiveTimeEntry } from '@/hooks/useActiveTimeEntry';
 import { useFetchRows } from '@/hooks/useFetchRows';
@@ -114,20 +114,6 @@ export const TimerActions: FC = () => {
     setIsBillable(selectedProject?.is_billable ?? false);
     console.log('TimerActions commit');
   }, [filterProjectById, selectedProjectId]);
-
-  useEffect(() => {
-    const timerId =
-      activeTimeEntry &&
-      setInterval(() => {
-        document.title = getFormattedDistance(new Date(activeTimeEntry.start)) + ' | Tractor';
-      }, 1000);
-    console.log('TimerActions interval commit');
-    return () => {
-      if (timerId) clearInterval(timerId);
-      document.title = 'Tractor';
-      console.log('TimerActions interval unmnount');
-    };
-  }, [activeTimeEntry]);
 
   console.log('TimerActions render', activeTimeEntry);
   return (

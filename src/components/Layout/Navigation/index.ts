@@ -6,3 +6,4 @@ export * from './Topbar';
 export * from './MobileSidebar';
 export * from './SidebarContent';
 export * from './LandingSidebarContent';
+export * from './NavigationItem';

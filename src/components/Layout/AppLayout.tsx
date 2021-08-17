@@ -1,5 +1,5 @@
 import { Flex, Box, useMediaQuery, useColorModeValue } from '@chakra-ui/react';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 
 import {
   Logo,
@@ -8,11 +8,28 @@ import {
   SidebarContent,
   Topbar,
 } from '@/components/Layout/Navigation';
+import { getFormattedDistance } from '@/components/Timer';
 import { SIDEBAR_WIDTH, TOPBAR_HEIGHT, CONTENT_CONTAINER } from '@/config/constants/layout';
+import { useActiveTimeEntry } from '@/hooks/useActiveTimeEntry';
 
 export const AppLayout: FC = ({ children }) => {
   const [isDesktopView] = useMediaQuery('(min-width: 48em)');
   const bg = useColorModeValue('gray.50', 'gray.700');
+  const { data: activeTimeEntry } = useActiveTimeEntry();
+
+  useEffect(() => {
+    const timerId =
+      activeTimeEntry &&
+      setInterval(() => {
+        document.title = getFormattedDistance(new Date(activeTimeEntry.start)) + ' | Tractor';
+      }, 1000);
+    console.log('AppLayout commit');
+    return () => {
+      if (timerId) clearInterval(timerId);
+      document.title = 'Tractor';
+      console.log('AppLayout unmnount');
+    };
+  }, [activeTimeEntry]);
 
   console.log('AppLayout render');
   return (
