@@ -15,10 +15,10 @@ import { useSortedTimeEntries } from '@/hooks/useSortedTimeEntries';
 
 export const TimerData = () => {
   const { t } = useLanguage();
-  const { sortedTimeEntries, isLoading } = useSortedTimeEntries();
+  const { sortedTimeEntries, isLoading, sortingLoading } = useSortedTimeEntries();
   const { data: projects, isLoading: isProjectsLoading } = useFetchRows('projects');
 
-  console.log('TimerData render', sortedTimeEntries, isLoading);
+  console.log('TimerData render', sortedTimeEntries, isLoading, sortingLoading);
   return (
     <Stack direction="column" spacing={12} my={12} px={6} minH="200px" flexGrow={1}>
       {sortedTimeEntries && Object.keys(sortedTimeEntries).length > 0 ? (
@@ -42,7 +42,7 @@ export const TimerData = () => {
         ))
       ) : (
         <Flex grow={1} align="center" justify="center">
-          {isLoading || isProjectsLoading ? (
+          {isLoading || isProjectsLoading || sortingLoading ? (
             <LoadingFallback />
           ) : (
             <EmptyPageMessage info={t('Go ahead and track some time.')} />

@@ -32,7 +32,7 @@ export const NavigationItem: FC<NavigationItemProps> = ({ navigationItem, start 
     };
   }, [navigationItem.to, start]);
 
-  console.log('NavigationItem render');
+  // console.log('NavigationItem render');
   return (
     <ListItem>
       <Link to={navigationItem.to}>

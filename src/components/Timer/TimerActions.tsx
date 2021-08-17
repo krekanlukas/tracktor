@@ -112,8 +112,15 @@ export const TimerActions: FC = () => {
     setSelectedProjectColor(selectedProject?.color_variant ?? 'gray');
     setSelectedProjectTitle(selectedProject?.title ?? 'No project');
     setIsBillable(selectedProject?.is_billable ?? false);
-    console.log('TimerActions commit');
+    console.log('TimerActions selectedProjectId commit');
   }, [filterProjectById, selectedProjectId]);
+
+  useEffect(() => {
+    setSelectedProjectId(activeTimeEntry?.project_id ?? null);
+    setIsBillable(activeTimeEntry?.is_billable ?? false);
+    setTaskDescription(activeTimeEntry?.description ?? '');
+    console.log('TimerActions activeTimeEntry commit');
+  }, [activeTimeEntry]);
 
   console.log('TimerActions render', activeTimeEntry);
   return (

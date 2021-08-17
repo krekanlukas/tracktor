@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { useEffect, useState } from 'react';
 
 import { useFetchRows } from '@/hooks/useFetchRows';
@@ -9,7 +10,9 @@ const sortByDate = (data: TimeEntryDbRow[]) => {
     if (!result[key]) {
       result[key] = [];
     }
-    result[key].push(timeEntry);
+    if (timeEntry.stop) {
+      result[key].push(timeEntry);
+    }
     return result;
   }, {});
 
@@ -18,7 +21,7 @@ const sortByDate = (data: TimeEntryDbRow[]) => {
     .sort((a, b) => b.getTime() - a.getTime())
     .map((date) => date.toDateString())
     .reduce((result: Record<string, TimeEntryDbRow[]>, key) => {
-      result[key] = filtered[key];
+      result[key] = _.orderBy(filtered[key], 'start', 'desc');
       return result;
     }, {});
 
@@ -31,14 +34,17 @@ export const useSortedTimeEntries = () => {
     string,
     TimeEntryDbRow[]
   > | null>(null);
+  const [sortingLoading, setSortingLoading] = useState(true);
 
   useEffect(() => {
+    setSortingLoading(true);
     if (data) {
       setSortedTimeEntries(sortByDate(data));
     }
+    setSortingLoading(false);
     console.log('useSortedTimeEntries commit');
   }, [data]);
 
   console.log('useSortedTimeEntries render');
-  return { sortedTimeEntries, isLoading };
+  return { sortedTimeEntries, isLoading, sortingLoading };
 };
