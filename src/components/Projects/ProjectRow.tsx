@@ -2,11 +2,10 @@ import { Button, ButtonGroup, Flex, Text, Tooltip } from '@chakra-ui/react';
 import { FC } from 'react';
 
 import { AlertDialogDelete, ProjectTitle } from '@/components/Common';
-import { ProjectActionsModal, ProjectDbRow } from '@/components/Projects';
+import { ProjectActionsModal } from '@/components/Projects';
 import { useLanguage } from '@/context/LanguageContext';
-import { useColorModeString } from '@/hooks/useColorModeString';
-import { useDeleteRow } from '@/hooks/useDeleteRow';
-import { useDisclosure } from '@/hooks/useDisclosure';
+import { useColorModeString, useDisclosure } from '@/hooks';
+import { useDeleteRow, ProjectDbRow } from '@/hooks/db';
 
 type ProjectRowProps = {
   project: ProjectDbRow;

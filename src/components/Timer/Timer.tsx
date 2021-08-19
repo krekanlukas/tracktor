@@ -4,7 +4,7 @@ import { FC, useState, useEffect } from 'react';
 import { ProjectTitle } from '@/components/Common';
 import { getFormattedDistance } from '@/components/Timer';
 import { useLanguage } from '@/context/LanguageContext';
-import { useColorModeString } from '@/hooks/useColorModeString';
+import { useColorModeString } from '@/hooks';
 
 type TimerProps = {
   description: string;

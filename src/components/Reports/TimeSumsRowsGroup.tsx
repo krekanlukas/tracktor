@@ -12,9 +12,7 @@ import {
   mapDurations,
 } from '@/components/Reports';
 import { getFormattedDuration } from '@/components/Timer';
-import { useBoolean } from '@/hooks/useBoolean';
-import { useColorModeString } from '@/hooks/useColorModeString';
-import { GroupedTimeEntry } from '@/hooks/useWeeklyReports';
+import { useBoolean, useColorModeString, GroupedTimeEntry } from '@/hooks';
 
 type TimeSumsRowsGroupProps = {
   timeEntries: GroupedTimeEntry[];

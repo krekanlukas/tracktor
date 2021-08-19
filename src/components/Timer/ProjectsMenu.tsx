@@ -11,10 +11,9 @@ import {
 } from '@chakra-ui/react';
 import { Dispatch, FC, SetStateAction } from 'react';
 
-import { ProjectDbRow } from '@/components/Projects';
 import { useLanguage } from '@/context/LanguageContext';
-import { useColorModeString } from '@/hooks/useColorModeString';
-import { useDisclosure } from '@/hooks/useDisclosure';
+import { useColorModeString, useDisclosure } from '@/hooks';
+import { ProjectDbRow } from '@/hooks/db';
 
 type ProjectsMenuProps = {
   setSelectedProjectId: Dispatch<SetStateAction<number | null>>;

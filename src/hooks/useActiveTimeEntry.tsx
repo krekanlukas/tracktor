@@ -2,17 +2,16 @@ import { useQuery } from 'react-query';
 
 import { supabase } from '@/config/supabase/supabaseClient';
 import { useAuth } from '@/context/AuthContext';
-import { TimeEntryDbRow } from '@/hooks/useInsertRow';
-import { useUpdateRow } from '@/hooks/useUpdateRow';
+import { TimeEntryDbRow, useUpdateRow } from '@/hooks/db';
 
-const MAX_HOURS = 1;
+const MAX_HOURS = 10;
+const MAX_TIME = 1000 * 60 * 60 * MAX_HOURS;
 
 const checkLongActiveTimeEntry = (start: Date) => {
-  // Check if active entry not running over 10h
-  const maxTime = 1000 * 60 * 1 * MAX_HOURS;
+  // Check if active entry not running over max time
   const timeNow = new Date().getTime();
   const startTime = new Date(start).getTime();
-  return maxTime <= timeNow - startTime;
+  return MAX_TIME <= timeNow - startTime;
 };
 
 export const useActiveTimeEntry = () => {
@@ -34,13 +33,11 @@ export const useActiveTimeEntry = () => {
       const stop = new Date(data?.start);
       stop.setHours(stop.getHours() + MAX_HOURS);
       await updateMutation.mutateAsync({
-        updatedRow: { ...data, stop, duration: 1000 * 60 * 1 * MAX_HOURS },
+        updatedRow: { ...data, stop, duration: MAX_TIME },
         idValue: data?.id,
       });
       return null;
     }
-
-    console.log('fetchAE', data);
     return data;
   };
 

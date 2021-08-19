@@ -13,8 +13,8 @@ import { ContentTopbar, EmptyPageMessage, LoadingFallback } from '@/components/C
 import { ProjectActionsModal, ProjectRow } from '@/components/Projects';
 import { BORDER_COLOR_DARK, TOPBAR_HEIGHT } from '@/config/constants/layout';
 import { useLanguage } from '@/context/LanguageContext';
-import { useDisclosure } from '@/hooks/useDisclosure';
-import { useFetchRows } from '@/hooks/useFetchRows';
+import { useDisclosure } from '@/hooks';
+import { useFetchRows } from '@/hooks/db';
 
 export const ProjectsPage = () => {
   const { t } = useLanguage();

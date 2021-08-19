@@ -16,14 +16,13 @@ import {
   Text,
   InputGroup,
   InputRightElement,
-  useToast,
 } from '@chakra-ui/react';
 import { FC, useState } from 'react';
 
-import { colors, ProjectDbRow } from '@/components/Projects';
+import { colors } from '@/components/Projects';
 import { useLanguage } from '@/context/LanguageContext';
-import { useInsertRow } from '@/hooks/useInsertRow';
-import { useUpdateRow } from '@/hooks/useUpdateRow';
+import { useCustomToast } from '@/hooks';
+import { useInsertRow, useUpdateRow, ProjectDbRow } from '@/hooks/db';
 
 type ProjectActionsModalProps = {
   onClose: () => void;
@@ -42,7 +41,7 @@ export const ProjectActionsModal: FC<ProjectActionsModalProps> = ({ onClose, isO
   const [colorVariant, setColorVariant] = useState(project?.color_variant ?? 'teal');
   const [isBillable, setIsBillable] = useState(project?.is_billable ?? false);
   const [pricePerHour, setPricePerHour] = useState(project?.price_per_hour ?? '');
-  const toast = useToast();
+  const { errorToast, successToast } = useCustomToast();
   const addProject = useInsertRow('projects');
   const editProject = useUpdateRow('projects');
 
@@ -58,19 +57,13 @@ export const ProjectActionsModal: FC<ProjectActionsModalProps> = ({ onClose, isO
           idValue: project?.id,
         });
 
-        toast({ status: 'success', duration: 9000, isClosable: true, title: t('Project edited') });
+        successToast(t('Project edited'));
         onClose();
       } catch (error) {
-        toast({
-          status: 'error',
-          duration: 9000,
-          isClosable: true,
-          title: t('Error editing project'),
-          description: error?.message,
-        });
+        errorToast(t('Error editing project'), error?.message);
       }
     } else {
-      toast({ title: t('Cannot edit project without ID'), isClosable: true, duration: 9000 });
+      errorToast(t('Cannot edit project without ID'));
     }
   };
 
@@ -78,7 +71,7 @@ export const ProjectActionsModal: FC<ProjectActionsModalProps> = ({ onClose, isO
     try {
       await addProject.mutateAsync(mutateObject);
 
-      toast({ status: 'success', duration: 9000, isClosable: true, title: t('Project created') });
+      successToast(t('Project created'));
 
       setProjectTitle('');
       setColorVariant('teal');
@@ -87,13 +80,7 @@ export const ProjectActionsModal: FC<ProjectActionsModalProps> = ({ onClose, isO
 
       onClose();
     } catch (error) {
-      toast({
-        status: 'error',
-        duration: 9000,
-        isClosable: true,
-        title: t('Error creating project'),
-        description: error?.message,
-      });
+      errorToast(t('Error creating project'), error?.message);
     }
   };
 

@@ -1,5 +1,5 @@
 import { WeekRange } from '@/components/Reports';
-import { GroupedTimeEntry } from '@/hooks/useWeeklyReports';
+import { GroupedTimeEntry } from '@/hooks';
 
 // CONSTANTS
 export const TITLE_CELL_MIN_WIDTH = '180px';

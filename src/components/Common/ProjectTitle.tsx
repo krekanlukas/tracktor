@@ -1,14 +1,14 @@
 import { Box, Text } from '@chakra-ui/react';
-import { FC } from 'react';
+import { FC, memo } from 'react';
 
-import { useColorModeString } from '@/hooks/useColorModeString';
+import { useColorModeString } from '@/hooks';
 
 type ProjectTitleProps = {
   colorVariant: string;
   projectTitle: string;
 };
 
-export const ProjectTitle: FC<ProjectTitleProps> = ({ colorVariant, projectTitle }) => {
+const ProjectTitleComponent: FC<ProjectTitleProps> = ({ colorVariant, projectTitle }) => {
   const formatColor = useColorModeString();
 
   console.log('ProjectTitle render');
@@ -19,3 +19,5 @@ export const ProjectTitle: FC<ProjectTitleProps> = ({ colorVariant, projectTitle
     </>
   );
 };
+
+export const ProjectTitle = memo(ProjectTitleComponent);

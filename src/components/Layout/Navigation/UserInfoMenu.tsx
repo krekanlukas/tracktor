@@ -10,7 +10,6 @@ import {
   MenuButton,
   Box,
   Spinner,
-  useToast,
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
@@ -18,7 +17,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { ROUTES } from '@/config/constants/routes';
 import { useAuth } from '@/context/AuthContext';
 import { useLanguage } from '@/context/LanguageContext';
-import { useUserSettings } from '@/hooks/useUserSettings';
+import { useCustomToast, useUserSettings } from '@/hooks';
 
 export const UserInfoMenu = () => {
   const { t } = useLanguage();
@@ -26,19 +25,18 @@ export const UserInfoMenu = () => {
   const { username } = useUserSettings();
   const [loading, setLoading] = useState(false);
   const history = useHistory();
-  const toast = useToast();
+  const { errorToast, successToast } = useCustomToast();
 
   const handleSignOut = async () => {
     try {
       setLoading(true);
       const { error } = await signOut();
       if (error) throw error;
-      toast({ title: 'Signed out', duration: 9000, isClosable: true });
+      successToast(t('Signed out'));
       history.push(ROUTES.HOME);
     } catch (error) {
       setLoading(false);
-      toast({ title: 'Error', duration: 9000, isClosable: true, status: 'error' });
-      console.log(error);
+      errorToast(t('Error'), error.message);
     }
   };
 

@@ -6,7 +6,7 @@ import { MdTimer } from 'react-icons/md';
 import { QuickSettings, UserInfoMenu, NavigationItem } from '@/components/Layout/Navigation';
 import { ROUTES } from '@/config/constants/routes';
 import { useLanguage } from '@/context/LanguageContext';
-import { useActiveTimeEntry } from '@/hooks/useActiveTimeEntry';
+import { useActiveTimeEntry } from '@/hooks';
 
 type NavigationItemsGroup = {
   groupTitle: string;

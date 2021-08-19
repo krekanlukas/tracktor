@@ -1,8 +1,7 @@
 import { useMutation, useQueryClient } from 'react-query';
 
-import { ProjectDbRow } from '@/components/Projects';
 import { supabase } from '@/config/supabase/supabaseClient';
-import { TimeEntryDbRow } from '@/hooks/useInsertRow';
+import { TimeEntryDbRow, ProjectDbRow } from '@/hooks/db';
 
 type Row = ProjectDbRow | TimeEntryDbRow;
 

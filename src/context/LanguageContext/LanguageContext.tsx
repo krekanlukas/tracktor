@@ -2,7 +2,7 @@ import { createContext, FC, useCallback, useContext } from 'react';
 
 import { translations } from '@/config/localization';
 import { ContextData } from '@/context/LanguageContext';
-import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { useLocalStorage } from '@/hooks';
 
 const LanguageContext = createContext<ContextData | undefined>(undefined);
 

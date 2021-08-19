@@ -10,8 +10,8 @@ import {
   getProjectProperties,
 } from '@/components/Timer';
 import { useLanguage } from '@/context/LanguageContext';
-import { useFetchRows } from '@/hooks/useFetchRows';
-import { useSortedTimeEntries } from '@/hooks/useSortedTimeEntries';
+import { useSortedTimeEntries } from '@/hooks';
+import { useFetchRows } from '@/hooks/db';
 
 export const TimerData = () => {
   const { t } = useLanguage();

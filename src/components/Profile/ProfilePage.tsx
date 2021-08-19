@@ -14,8 +14,7 @@ import { useState } from 'react';
 import { LoadingFallback } from '@/components/Common';
 import { useAuth } from '@/context/AuthContext';
 import { useLanguage } from '@/context/LanguageContext';
-import { useUpdateUserSettings } from '@/hooks/useUpdateUserSettings';
-import { useUserSettings } from '@/hooks/useUserSettings';
+import { useUpdateUserSettings, useUserSettings } from '@/hooks';
 
 export const ProfilePage = () => {
   const { user } = useAuth();

@@ -1,8 +1,7 @@
 import _ from 'lodash';
 import { useEffect, useState } from 'react';
 
-import { useFetchRows } from '@/hooks/useFetchRows';
-import { TimeEntryDbRow } from '@/hooks/useInsertRow';
+import { useFetchRows, TimeEntryDbRow } from '@/hooks/db';
 
 const sortByDate = (data: TimeEntryDbRow[]) => {
   const filtered = data.reduce((result: Record<string, TimeEntryDbRow[]>, timeEntry) => {

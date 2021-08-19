@@ -10,7 +10,7 @@ import {
   TimeSumsRowsGroup,
 } from '@/components/Reports';
 import { useLanguage } from '@/context/LanguageContext';
-import { useWeeklyReports } from '@/hooks/useWeeklyReports';
+import { useWeeklyReports } from '@/hooks';
 
 export const ReportsPage = () => {
   const { t } = useLanguage();

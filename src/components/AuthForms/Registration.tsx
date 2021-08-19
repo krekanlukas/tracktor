@@ -9,21 +9,15 @@ import {
   Link,
   Stack,
   Text,
-  useToast,
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { Link as RouterLink, useHistory } from 'react-router-dom';
 
-import {
-  AuthFormContainer,
-  linkToLogin,
-  errorRegistrationToast,
-  succesRegistrationToast,
-} from '@/components/AuthForms';
+import { AuthFormContainer, linkToLogin } from '@/components/AuthForms';
 import { ROUTES } from '@/config/constants/routes';
 import { useAuth } from '@/context/AuthContext';
 import { useLanguage } from '@/context/LanguageContext';
-import { useBoolean } from '@/hooks/useBoolean';
+import { useBoolean, useCustomToast } from '@/hooks';
 
 export const Registration = () => {
   const { t } = useLanguage();
@@ -32,7 +26,7 @@ export const Registration = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const toast = useToast();
+  const { errorToast, successToast } = useCustomToast();
   const history = useHistory();
 
   const handleRegister = async (e: React.FormEvent<HTMLFormElement | HTMLDivElement>) => {
@@ -42,11 +36,11 @@ export const Registration = () => {
       const { error } = await signUp({ email, password });
       if (error) throw error;
       history.push(ROUTES.HOME);
-      toast(succesRegistrationToast);
+      successToast(t('Registration was successful'));
     } catch (error) {
       setLoading(false);
       setPassword('');
-      toast({ ...errorRegistrationToast, description: error.message });
+      errorToast(t('Sign up error'), error.message);
     }
   };
 

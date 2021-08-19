@@ -4,7 +4,7 @@ import { FC, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { TOPBAR_HEIGHT, NAVIGATION_CONTAINER } from '@/config/constants/layout';
-import { useDisclosure } from '@/hooks/useDisclosure';
+import { useDisclosure } from '@/hooks';
 
 export const MobileSidebar: FC = ({ children }) => {
   const buttonRef = useRef(null);

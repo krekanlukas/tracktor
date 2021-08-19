@@ -1,14 +1,10 @@
-import { useToast } from '@chakra-ui/react';
 import { FC, useCallback, useEffect, useState } from 'react';
 
 import { ContentTopbar, LoadingFallback } from '@/components/Common';
-import { ProjectDbRow } from '@/components/Projects';
 import { NewTimeEntry, Timer, ProjectsMenu } from '@/components/Timer';
 import { useLanguage } from '@/context/LanguageContext';
-import { useActiveTimeEntry } from '@/hooks/useActiveTimeEntry';
-import { useFetchRows } from '@/hooks/useFetchRows';
-import { TimeEntryDbRow, useInsertRow } from '@/hooks/useInsertRow';
-import { useUpdateRow } from '@/hooks/useUpdateRow';
+import { useActiveTimeEntry, useCustomToast } from '@/hooks';
+import { useFetchRows, useUpdateRow, TimeEntryDbRow, useInsertRow, ProjectDbRow } from '@/hooks/db';
 
 export const TimerActions: FC = () => {
   const { data: projects, isLoading: isProjectsLoading } = useFetchRows('projects');
@@ -24,7 +20,7 @@ export const TimerActions: FC = () => {
   const [taskDescription, setTaskDescription] = useState(activeTimeEntry?.description ?? '');
   const addTimeEntry = useInsertRow('time_entries', 'active_time_entry');
   const editTimeEntry = useUpdateRow('time_entries', ['active_time_entry', 'time_entries']);
-  const toast = useToast();
+  const { errorToast, successToast } = useCustomToast();
 
   const filterProjectById = useCallback(
     (id: number | null): ProjectDbRow | undefined => {
@@ -44,20 +40,9 @@ export const TimerActions: FC = () => {
     };
     try {
       await addTimeEntry.mutateAsync(mutateObject);
-      toast({
-        status: 'success',
-        duration: 9000,
-        isClosable: true,
-        title: t('Time entry started'),
-      });
+      successToast(t('Time entry started'));
     } catch (error) {
-      toast({
-        status: 'error',
-        duration: 9000,
-        isClosable: true,
-        title: t('Error starting time entry'),
-        description: error?.message,
-      });
+      errorToast(t('Error starting time entry'), error?.message);
     }
   };
 
@@ -78,30 +63,14 @@ export const TimerActions: FC = () => {
           updatedRow: mutationObject,
           idValue: activeTimeEntry?.id,
         });
-        toast({
-          status: 'success',
-          duration: 9000,
-          isClosable: true,
-          title: t('Time entry stopped'),
-        });
+        successToast(t('Time entry stopped'));
         setSelectedProjectId(null);
         setTaskDescription('');
       } catch (error) {
-        toast({
-          status: 'error',
-          duration: 9000,
-          isClosable: true,
-          title: t('Error stopping time entry'),
-          description: error.message,
-        });
+        errorToast(t('Error stopping time entry'), error.message);
       }
     } else {
-      toast({
-        status: 'error',
-        duration: 9000,
-        isClosable: true,
-        title: t('Error stopping time entry'),
-      });
+      errorToast(t('Error stopping time entry'));
     }
   };
 

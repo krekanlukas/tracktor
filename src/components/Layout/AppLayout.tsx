@@ -10,7 +10,7 @@ import {
 } from '@/components/Layout/Navigation';
 import { getFormattedDistance } from '@/components/Timer';
 import { SIDEBAR_WIDTH, TOPBAR_HEIGHT, CONTENT_CONTAINER } from '@/config/constants/layout';
-import { useActiveTimeEntry } from '@/hooks/useActiveTimeEntry';
+import { useActiveTimeEntry } from '@/hooks';
 
 export const AppLayout: FC = ({ children }) => {
   const [isDesktopView] = useMediaQuery('(min-width: 48em)');

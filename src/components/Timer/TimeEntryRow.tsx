@@ -5,9 +5,8 @@ import { FC, useState } from 'react';
 import { AlertDialogDelete, ProjectTitle } from '@/components/Common';
 import { formatTime, getFormattedDuration } from '@/components/Timer';
 import { useLanguage } from '@/context/LanguageContext';
-import { useDeleteRow } from '@/hooks/useDeleteRow';
-import { useDisclosure } from '@/hooks/useDisclosure';
-import { TimeEntryDbRow } from '@/hooks/useInsertRow';
+import { useDisclosure } from '@/hooks';
+import { useDeleteRow, TimeEntryDbRow } from '@/hooks/db';
 
 type TimeEntryRowProps = {
   timeEntry: TimeEntryDbRow;

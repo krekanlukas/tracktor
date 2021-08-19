@@ -1,5 +1,4 @@
-import { ProjectDbRow } from '@/components/Projects';
-import { TimeEntryDbRow } from '@/hooks/useInsertRow';
+import { TimeEntryDbRow, ProjectDbRow } from '@/hooks/db';
 
 const getHoursString = (distance: number) => {
   return Math.floor(distance / (1000 * 60 * 60));

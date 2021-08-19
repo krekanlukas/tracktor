@@ -1,10 +1,10 @@
-import { useToast } from '@chakra-ui/react';
 import _, { Dictionary } from 'lodash';
 import { useState, useEffect } from 'react';
 
 import { WeekRange } from '@/components/Reports';
 import { supabase } from '@/config/supabase/supabaseClient';
 import { useAuth } from '@/context/AuthContext';
+import { useCustomToast } from '@/hooks';
 
 export type GroupedTimeEntry = {
   id: number;
@@ -22,7 +22,7 @@ export const useWeeklyReports = (selectedRange: WeekRange) => {
   const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState<Dictionary<GroupedTimeEntry[]> | null>();
-  const toast = useToast();
+  const { errorToast } = useCustomToast();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -59,18 +59,12 @@ export const useWeeklyReports = (selectedRange: WeekRange) => {
         setIsLoading(false);
       } catch (error) {
         setIsLoading(false);
-        toast({
-          status: 'error',
-          isClosable: true,
-          duration: 9000,
-          title: `Error`,
-          description: error.message,
-        });
+        errorToast(`Error`, error.message);
       }
     };
 
     fetchData();
-  }, [selectedRange.firstDay, selectedRange.lastDay, toast, user?.id]);
+  }, [errorToast, selectedRange.firstDay, selectedRange.lastDay, user?.id]);
 
   console.log('useWeeklyReports render');
   return { data, isLoading };

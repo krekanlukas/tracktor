@@ -10,22 +10,15 @@ import {
   Stack,
   Switch,
   Tooltip,
-  useToast,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 
-import {
-  AuthFormContainer,
-  magicLinkToast,
-  errorLoginToast,
-  linkToRegister,
-  succesLoginToast,
-} from '@/components/AuthForms';
+import { AuthFormContainer, linkToRegister } from '@/components/AuthForms';
 import { ROUTES } from '@/config/constants/routes';
 import { useAuth } from '@/context/AuthContext';
 import { useLanguage } from '@/context/LanguageContext';
-import { useBoolean } from '@/hooks/useBoolean';
+import { useBoolean, useCustomToast } from '@/hooks';
 
 type LocationState = {
   magicLink: boolean;
@@ -40,7 +33,7 @@ export const Login = () => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const { state } = useLocation<LocationState>();
-  const toast = useToast();
+  const { errorToast, successToast } = useCustomToast();
   const history = useHistory();
 
   useEffect(() => {
@@ -55,13 +48,17 @@ export const Login = () => {
       const signInData = isMagicLink ? { email } : { email, password };
       const { error } = await signIn(signInData);
       if (error) throw error;
-      const toastData = isMagicLink ? magicLinkToast : succesLoginToast;
-      toast(toastData);
+      isMagicLink
+        ? successToast(
+            t('Magic link sent.'),
+            t('Tractor have sent magic link to your email address.')
+          )
+        : successToast(t('Logged In'));
       history.push(ROUTES.HOME);
     } catch (error) {
       console.log(error);
       setLoading(false);
-      toast({ ...errorLoginToast, description: error.message });
+      errorToast(t('Error Signing in'), error.message);
     }
   };
 
