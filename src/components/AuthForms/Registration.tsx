@@ -35,7 +35,7 @@ export const Registration = () => {
       setLoading(true);
       const { error } = await signUp({ email, password });
       if (error) throw error;
-      history.push(ROUTES.HOME);
+      history.push(ROUTES.PROFILE_SETTINGS);
       successToast(t('Registration was successful'));
     } catch (error) {
       setLoading(false);

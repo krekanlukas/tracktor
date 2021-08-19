@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   FormControl,
+  FormHelperText,
   FormLabel,
   Input,
   InputGroup,
@@ -51,7 +52,7 @@ export const Login = () => {
       isMagicLink
         ? successToast(
             t('Magic link sent.'),
-            t('Tractor have sent magic link to your email address.')
+            t('Tracktor have sent magic link to your email address.')
           )
         : successToast(t('Logged In'));
       history.push(ROUTES.HOME);
@@ -73,7 +74,7 @@ export const Login = () => {
               <Tooltip
                 aria-label="A tooltip"
                 label={t(
-                  'Special link send to your email address which is used to passwordless login for one session'
+                  'Special link send to your email address which is used to passwordless login for one session.'
                 )}
                 fontSize="sm"
               >
@@ -96,6 +97,13 @@ export const Login = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
+            {isMagicLink && (
+              <FormHelperText>
+                {t(
+                  `Warning. If you use this option you can't create account with given email address.`
+                )}
+              </FormHelperText>
+            )}
           </FormControl>
           {!isMagicLink && (
             <FormControl id="password" isRequired>

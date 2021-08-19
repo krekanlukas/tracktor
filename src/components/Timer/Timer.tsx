@@ -44,7 +44,7 @@ export const Timer: FC<TimerProps> = ({
     <Skeleton isLoaded={!isLoading}>
       <Flex mt={6} px={6} align="center">
         <Text mr={2}>{`${description || t('Active timer')}:`}</Text>
-        <ProjectTitle projectTitle={projectTitle} colorVariant={colorVariant} />
+        <ProjectTitle projectTitle={t(projectTitle)} colorVariant={colorVariant} />
         <Text color={formatColor(colorVariant)} ml={2}>
           {time ?? '0:00:00'}
         </Text>

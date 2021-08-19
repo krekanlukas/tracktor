@@ -50,7 +50,7 @@ export const DateFilterButtons: FC<DateFilterButtonsProps> = ({
           }
         />
         <Button aria-label="Calendar" leftIcon={<CalendarIcon />} colorScheme="teal" isDisabled>
-          {formatWeekRange(selectedRange)}
+          {t(formatWeekRange(selectedRange))}
         </Button>
         <IconButton
           aria-label="Next"

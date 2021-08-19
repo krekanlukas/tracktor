@@ -10,12 +10,13 @@ import { useLanguage } from '@/context/LanguageContext';
 type NavigationItemProps = {
   navigationItem: NavigationItemType;
   start: Date | undefined;
+  isLoading: boolean;
 };
 
-export const NavigationItem: FC<NavigationItemProps> = ({ navigationItem, start }) => {
+export const NavigationItem: FC<NavigationItemProps> = ({ navigationItem, start, isLoading }) => {
   const { t } = useLanguage();
   const { pathname } = useLocation();
-  const [time, setTime] = useState<string | null>(null);
+  const [time, setTime] = useState<string>('0:00:00');
 
   useEffect(() => {
     const intervalId =
@@ -24,11 +25,11 @@ export const NavigationItem: FC<NavigationItemProps> = ({ navigationItem, start 
       setInterval(() => {
         setTime(getFormattedDistance(new Date(start)));
       }, 1000);
-    console.log('Timer commit');
+    console.log('NavigationItem commit');
     return () => {
       if (intervalId) clearInterval(intervalId);
-      setTime(null);
-      console.log('Timer unmount commit');
+      setTime('0:00:00');
+      console.log('NavigationItem unmount commit');
     };
   }, [navigationItem.to, start]);
 
@@ -39,9 +40,10 @@ export const NavigationItem: FC<NavigationItemProps> = ({ navigationItem, start 
         <Button
           leftIcon={navigationItem.icon}
           isFullWidth
-          justifyContent="flex-start"
+          justifyContent={navigationItem.to === ROUTES.TIMER && isLoading ? 'center' : 'flex-start'}
           variant={pathname === navigationItem.to ? 'solid' : 'outline'}
           colorScheme={pathname === navigationItem.to ? 'teal' : 'gray'}
+          isLoading={navigationItem.to === ROUTES.TIMER && isLoading}
         >
           {navigationItem.to === ROUTES.TIMER && start ? time : t(navigationItem.name)}
         </Button>

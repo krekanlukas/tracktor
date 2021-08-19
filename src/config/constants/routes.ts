@@ -3,7 +3,7 @@ export const ROUTES = {
   TIMER: '/timer',
   REPORTS: '/reports',
   PROJECTS: '/projects',
-  PROFILE_SETTINGS: '/profile-settings',
+  PROFILE_SETTINGS: '/profile-and-settings',
   LOGIN: '/login',
   REGISTER: '/registration',
 };

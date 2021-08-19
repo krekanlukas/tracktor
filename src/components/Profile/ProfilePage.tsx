@@ -14,19 +14,29 @@ import { useState } from 'react';
 import { LoadingFallback } from '@/components/Common';
 import { useAuth } from '@/context/AuthContext';
 import { useLanguage } from '@/context/LanguageContext';
-import { useUpdateUserSettings, useUserSettings } from '@/hooks';
+import { useCustomToast, useUpdateUserSettings, useUserSettings } from '@/hooks';
 
 export const ProfilePage = () => {
   const { user } = useAuth();
   const { t } = useLanguage();
   const { username, isLoading } = useUserSettings();
   const [usernameInput, setUsernameInput] = useState<string | null>(null);
+  const { errorToast, successToast } = useCustomToast();
 
   const updateProfile = useUpdateUserSettings({
     user_name: usernameInput,
     id: user?.id,
     updated_at: new Date(),
   });
+
+  const handleUpdate = async () => {
+    try {
+      await updateProfile.mutateAsync();
+      successToast(t('Profile updated'));
+    } catch (error) {
+      errorToast(t('Error updating profile'));
+    }
+  };
 
   console.log('Profile render');
   return isLoading ? (
@@ -59,12 +69,7 @@ export const ProfilePage = () => {
         >
           <FormControl id="email" isReadOnly>
             <FormLabel>{t('Email')}</FormLabel>
-            <Input
-              type="email"
-              placeholder={username ?? t('Type your username')}
-              value={user?.email}
-              focusBorderColor="teal.500"
-            />
+            <Input type="email" value={user?.email} focusBorderColor="teal.500" />
             <FormHelperText>{t('Email is not editable')}</FormHelperText>
           </FormControl>
           <FormControl id="username">
@@ -80,7 +85,7 @@ export const ProfilePage = () => {
           <Button
             colorScheme="teal"
             alignSelf="center"
-            onClick={() => updateProfile.mutate()}
+            onClick={handleUpdate}
             isLoading={updateProfile.isLoading}
             isDisabled={!usernameInput}
           >

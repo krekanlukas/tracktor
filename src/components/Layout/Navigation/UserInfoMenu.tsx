@@ -60,7 +60,7 @@ export const UserInfoMenu = () => {
       </MenuButton>
       <MenuList>
         <Link to={ROUTES.PROFILE_SETTINGS}>
-          <MenuItem>{t('Profile settings')}</MenuItem>
+          <MenuItem>{t('Profile and Settings')}</MenuItem>
         </Link>
         <MenuDivider />
         <MenuItem onClick={handleSignOut}>{t('Log out')}</MenuItem>

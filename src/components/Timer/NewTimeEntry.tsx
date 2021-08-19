@@ -52,12 +52,12 @@ export const NewTimeEntry: FC<NewTimeEntryProps> = ({
         </Tooltip>
         <Box>{children}</Box>
         <Tooltip
-          label={isActiveTimeEntry ? t('End timer') : t('Start timer')}
+          label={isActiveTimeEntry ? t('Stop timer') : t('Start timer')}
           aria-label="Timer tooltip"
         >
           <IconButton
             colorScheme="teal"
-            aria-label={isActiveTimeEntry ? 'End timer' : 'Start timer'}
+            aria-label={isActiveTimeEntry ? 'Stop timer' : 'Start timer'}
             size="md"
             icon={isActiveTimeEntry ? <FaStop /> : <FaPlay />}
             borderRadius="full"

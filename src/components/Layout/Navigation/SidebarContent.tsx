@@ -54,7 +54,7 @@ const navigationItemsGroups: NavigationItemsGroup[] = [
 
 export const SidebarContent = () => {
   const { t } = useLanguage();
-  const { data: activeTimeEntry } = useActiveTimeEntry();
+  const { data: activeTimeEntry, isLoading } = useActiveTimeEntry();
 
   console.log('SidebarContent render');
   return (
@@ -70,6 +70,7 @@ export const SidebarContent = () => {
                 key={index}
                 navigationItem={navigationItem}
                 start={activeTimeEntry?.start}
+                isLoading={isLoading}
               />
             ))}
           </Fragment>

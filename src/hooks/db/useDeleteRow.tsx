@@ -23,7 +23,7 @@ export const useDeleteRow = (table: string, id?: number, title = 'Row') => {
         await deleteMutation.mutateAsync(id);
         successToast(t(`${title} removed`));
       } catch (error) {
-        errorToast(t(`Error deleting ${title}`), error.message);
+        errorToast(t(`Error deleting ${title}`), error.details);
       }
     } else {
       errorToast(t(`Cannot delete ${title} without ID`));
