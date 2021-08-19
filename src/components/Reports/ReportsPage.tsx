@@ -43,7 +43,7 @@ export const ReportsPage = () => {
           ))}
         </TimeSumsTable>
       ) : (
-        <Flex grow={1} justify="center">
+        <Flex grow={1} justify="center" mt={{ base: 6, md: 0 }}>
           {isLoading ? (
             <LoadingFallback />
           ) : (

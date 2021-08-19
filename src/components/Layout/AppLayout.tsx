@@ -55,6 +55,7 @@ export const AppLayout: FC = ({ children }) => {
         mt={isDesktopView ? 0 : TOPBAR_HEIGHT}
         flexGrow={1}
         bg={bg}
+        overflow="auto"
       >
         <Flex h="100%" w="100%" p={CONTENT_CONTAINER}>
           {children}

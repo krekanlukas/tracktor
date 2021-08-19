@@ -10,7 +10,7 @@ export const TimeSumsTable: FC = ({ children }) => {
 
   console.log('TimeSumsTable render');
   return (
-    <Box px={6} mt={6}>
+    <Box px={6} mt={6} overflow="auto">
       <CardContainer>
         <TimeSumsRow title={<Text>{t('Title')}</Text>} total={t('Total')}>
           {getWeekDays(selectedLanguage).map((day) => (

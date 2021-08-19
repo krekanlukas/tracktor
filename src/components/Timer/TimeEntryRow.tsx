@@ -34,6 +34,7 @@ export const TimeEntryRow: FC<TimeEntryRowProps> = ({
       _hover={{ bg: hoverbg }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      wrap="wrap"
     >
       <Flex flex={1} align="center">
         <Text mr={6}>{timeEntry.description || 'No description'}</Text>

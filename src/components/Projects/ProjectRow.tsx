@@ -21,8 +21,8 @@ export const ProjectRow: FC<ProjectRowProps> = ({ project }) => {
 
   console.log('ProjectRow render');
   return (
-    <Flex _hover={{ cursor: 'pointer' }} p={3} align="center">
-      <Flex align="center" flex="1">
+    <Flex _hover={{ cursor: 'pointer' }} p={3} align="center" wrap="wrap">
+      <Flex align="center" flex="1" minW={'120px'}>
         <ProjectTitle projectTitle={title} colorVariant={color_variant} />
       </Flex>
       {is_billable && (
@@ -34,7 +34,12 @@ export const ProjectRow: FC<ProjectRowProps> = ({ project }) => {
           </Tooltip>
         </Flex>
       )}
-      <ButtonGroup variant="outline" spacing={3} flex="1" justifyContent="flex-end">
+      <ButtonGroup
+        variant="outline"
+        spacing={3}
+        flex="1"
+        justifyContent={{ base: 'center', md: 'flex-end' }}
+      >
         <Button colorScheme="blue" onClick={openEdit}>
           {t('Edit')}
         </Button>

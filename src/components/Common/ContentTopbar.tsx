@@ -13,7 +13,8 @@ export const ContentTopbar: FC = ({ children }) => {
   console.log('ContentTopbar render');
   return (
     <Flex
-      h={TOPBAR_HEIGHT}
+      h={'min-content'}
+      minH={TOPBAR_HEIGHT}
       borderBottom={BORDER_WIDTH}
       borderColor={borderColor}
       px={6}

@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   Flex,
   FormControl,
@@ -11,7 +10,7 @@ import {
 } from '@chakra-ui/react';
 import { useState } from 'react';
 
-import { LoadingFallback } from '@/components/Common';
+import { ContentTopbar, LoadingFallback } from '@/components/Common';
 import { useAuth } from '@/context/AuthContext';
 import { useLanguage } from '@/context/LanguageContext';
 import { useCustomToast, useUpdateUserSettings, useUserSettings } from '@/hooks';
@@ -43,9 +42,9 @@ export const ProfilePage = () => {
     <LoadingFallback />
   ) : (
     <Stack w="full" spacing={6}>
-      <Box>
+      <ContentTopbar>
         <Heading>{t('Profile')}</Heading>
-      </Box>
+      </ContentTopbar>
       <Flex align="center">
         {/* <Flex flex="1" h="full" justify="center">
           <Avatar
@@ -93,6 +92,9 @@ export const ProfilePage = () => {
           </Button>
         </Stack>
       </Flex>
+      <ContentTopbar>
+        <Heading>{t('Settings')}</Heading>
+      </ContentTopbar>
     </Stack>
   );
 };

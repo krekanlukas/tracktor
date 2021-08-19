@@ -20,7 +20,7 @@ export const TimerData = () => {
 
   console.log('TimerData render', sortedTimeEntries, isLoading, sortingLoading);
   return (
-    <Stack direction="column" spacing={12} my={12} px={6} minH="200px" flexGrow={1}>
+    <Stack direction="column" spacing={12} my={12} px={6} minH="200px" flexGrow={1} overflow="auto">
       {sortedTimeEntries && Object.keys(sortedTimeEntries).length > 0 ? (
         Object.entries(sortedTimeEntries).map(([key, timeEntries]) =>
           timeEntries.length > 0 ? (

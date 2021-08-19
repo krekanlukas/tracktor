@@ -4,9 +4,11 @@ import {
   Button,
   Flex,
   Heading,
+  IconButton,
   Stack,
   StackDivider,
   useColorModeValue,
+  useMediaQuery,
 } from '@chakra-ui/react';
 
 import { ContentTopbar, EmptyPageMessage, LoadingFallback } from '@/components/Common';
@@ -22,15 +24,25 @@ export const ProjectsPage = () => {
   const { data, isLoading } = useFetchRows('projects');
   const bg = useColorModeValue('white', BORDER_COLOR_DARK);
   const border = useColorModeValue('gray.100', 'gray.500');
+  const [isDesktopView] = useMediaQuery('(min-width: 48em)');
 
   console.log('Projects render');
   return (
     <Box w="full">
       <ContentTopbar>
-        <Heading>{t('Projects')}</Heading>
-        <Button leftIcon={<AddIcon />} colorScheme="teal" ml="auto" onClick={open}>
-          {t('New project')}
-        </Button>
+        <Heading mr="auto">{t('Projects')}</Heading>
+        {isDesktopView ? (
+          <Button leftIcon={<AddIcon />} colorScheme="teal" onClick={open}>
+            {t('New project')}
+          </Button>
+        ) : (
+          <IconButton
+            aria-label="New project"
+            colorScheme="teal"
+            icon={<AddIcon />}
+            onClick={open}
+          />
+        )}
         <ProjectActionsModal onClose={close} isOpen={isOpen} />
       </ContentTopbar>
       {isLoading ? (
@@ -46,6 +58,7 @@ export const ProjectsPage = () => {
           borderRadius="md"
           p={3}
           divider={<StackDivider borderColor={border} />}
+          overflow="auto"
         >
           {data.map((project) => (
             <ProjectRow key={project.id} project={project} />

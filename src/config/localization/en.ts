@@ -62,6 +62,7 @@ export const en = {
   'Email is not editable': 'Email is not editable',
   'User name': 'User name',
   'Save changes': 'Save changes',
+  Settings: 'Settings',
 
   // Projects
   'Project edited': 'Project edited',

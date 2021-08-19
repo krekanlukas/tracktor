@@ -22,7 +22,7 @@ export const Topbar: FC = ({ children }) => {
       left="0"
       borderBottom={BORDER_WIDTH}
       borderColor={borderColor}
-      w="100%"
+      w="100vw"
       boxShadow="sm"
       px={NAVIGATION_CONTAINER}
       align="center"

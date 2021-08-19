@@ -62,6 +62,7 @@ export const sk = {
   'Email is not editable': 'Email nie je možné zmeniť.',
   'User name': 'Užívateľské meno',
   'Save changes': 'Uložiť zmeny',
+  Settings: 'Nastavenia',
 
   // Projects
   'Project edited': 'Projekt bol upravený',

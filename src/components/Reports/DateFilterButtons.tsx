@@ -23,7 +23,12 @@ export const DateFilterButtons: FC<DateFilterButtonsProps> = ({
   console.log('DateFilterButtons render');
   return (
     <Box px={6}>
-      <Stack mt={6} spacing={3} direction="row">
+      <Stack
+        mt={6}
+        spacing={3}
+        direction="row"
+        justifyContent={{ base: 'center', md: 'flex-start' }}
+      >
         <Button
           variant={reportView === 'Summary' ? 'solid' : 'outline'}
           colorScheme="teal"
@@ -40,7 +45,13 @@ export const DateFilterButtons: FC<DateFilterButtonsProps> = ({
           {t('Details')}
         </Button>
       </Stack>
-      <ButtonGroup isAttached variant="outline" mt={6}>
+      <ButtonGroup
+        isAttached
+        variant="outline"
+        mt={6}
+        justifyContent={{ base: 'center', md: 'flex-start' }}
+        w={{ base: 'full' }}
+      >
         <IconButton
           aria-label="Previous"
           icon={<ArrowBackIcon />}
