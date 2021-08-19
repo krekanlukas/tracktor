@@ -1,6 +1,7 @@
-import { Box, Flex, Skeleton, Text } from '@chakra-ui/react';
+import { Flex, Skeleton, Text } from '@chakra-ui/react';
 import { FC, useState, useEffect } from 'react';
 
+import { ProjectTitle } from '@/components/Common';
 import { getFormattedDistance } from '@/components/Timer';
 import { useLanguage } from '@/context/LanguageContext';
 import { useColorModeString } from '@/hooks/useColorModeString';
@@ -42,11 +43,8 @@ export const Timer: FC<TimerProps> = ({
   return (
     <Skeleton isLoaded={!isLoading}>
       <Flex mt={6} px={6} align="center">
-        <Text>{`${description || t('Active timer')}:`}</Text>
-        <Box borderRadius="100%" w="10px" h="10px" bg={formatColor(colorVariant)} ml={2} />
-        <Text color={formatColor(colorVariant)} ml={2}>
-          {projectTitle}
-        </Text>
+        <Text mr={2}>{`${description || t('Active timer')}:`}</Text>
+        <ProjectTitle projectTitle={projectTitle} colorVariant={colorVariant} />
         <Text color={formatColor(colorVariant)} ml={2}>
           {time ?? '0:00:00'}
         </Text>

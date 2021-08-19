@@ -1,7 +1,7 @@
-import { Box, Button, ButtonGroup, Flex, Text, Tooltip } from '@chakra-ui/react';
+import { Button, ButtonGroup, Flex, Text, Tooltip } from '@chakra-ui/react';
 import { FC } from 'react';
 
-import { AlertDialogDelete } from '@/components/Common';
+import { AlertDialogDelete, ProjectTitle } from '@/components/Common';
 import { ProjectActionsModal, ProjectDbRow } from '@/components/Projects';
 import { useLanguage } from '@/context/LanguageContext';
 import { useColorModeString } from '@/hooks/useColorModeString';
@@ -24,10 +24,7 @@ export const ProjectRow: FC<ProjectRowProps> = ({ project }) => {
   return (
     <Flex _hover={{ cursor: 'pointer' }} p={3} align="center">
       <Flex align="center" flex="1">
-        <Box borderRadius="100%" w="10px" h="10px" bg={formatColor(color_variant)} mr={2} />
-        <Text color={formatColor(color_variant)} fontSize="lg">
-          {t(title)}
-        </Text>
+        <ProjectTitle projectTitle={title} colorVariant={color_variant} />
       </Flex>
       {is_billable && (
         <Flex flex="1" justify="center">

@@ -1,11 +1,10 @@
 import { DeleteIcon } from '@chakra-ui/icons';
-import { Box, Flex, IconButton, Text, useColorModeValue } from '@chakra-ui/react';
+import { Flex, IconButton, Text, useColorModeValue } from '@chakra-ui/react';
 import { FC, useState } from 'react';
 
-import { AlertDialogDelete } from '@/components/Common';
+import { AlertDialogDelete, ProjectTitle } from '@/components/Common';
 import { formatTime, getFormattedDuration } from '@/components/Timer';
 import { useLanguage } from '@/context/LanguageContext';
-import { useColorModeString } from '@/hooks/useColorModeString';
 import { useDeleteRow } from '@/hooks/useDeleteRow';
 import { useDisclosure } from '@/hooks/useDisclosure';
 import { TimeEntryDbRow } from '@/hooks/useInsertRow';
@@ -24,7 +23,6 @@ export const TimeEntryRow: FC<TimeEntryRowProps> = ({
   const { t } = useLanguage();
   const [isHovered, setIsHovered] = useState(false);
   const hoverbg = useColorModeValue('gray.100', 'whiteAlpha.200');
-  const formatColor = useColorModeString();
   const { isOpen, open, close } = useDisclosure();
   const { handleDelete, isDeleting } = useDeleteRow('time_entries', timeEntry.id, 'Time entry');
 
@@ -39,11 +37,8 @@ export const TimeEntryRow: FC<TimeEntryRowProps> = ({
       onMouseLeave={() => setIsHovered(false)}
     >
       <Flex flex={1} align="center">
-        <Text mr={10}>{timeEntry.description || 'No description'}</Text>
-        <Box borderRadius="100%" w="10px" h="10px" bg={formatColor(projectColorVariant)} mr={2} />
-        <Text color={formatColor(projectColorVariant)} fontSize="lg">
-          {projectTitle}
-        </Text>
+        <Text mr={6}>{timeEntry.description || 'No description'}</Text>
+        <ProjectTitle projectTitle={projectTitle} colorVariant={projectColorVariant} />
       </Flex>
       <Flex flex={1} justify="flex-end" align="center">
         <Text>{`${formatTime(timeEntry.start)} - ${formatTime(timeEntry.stop ?? '')}`}</Text>
